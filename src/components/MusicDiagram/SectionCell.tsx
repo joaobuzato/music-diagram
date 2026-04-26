@@ -16,6 +16,8 @@ export function SectionCell({
 }: Readonly<SectionCellProps>) {
   const muted = data.dyn === 0;
   const pct = (((data.pan + 1) / 2) * 100).toFixed(1) + "%";
+  // -1 (L) → -135°, 0 (C) → 0°, +1 (R) → +135°
+  const knobAngle = data.pan * 135;
 
   return (
     <div
@@ -34,17 +36,15 @@ export function SectionCell({
             }}
           />
           <div
-            className={styles.panVline}
-            style={{ left: pct, background: color }}
-          />
-          <div
-            className={styles.panDot}
+            className={styles.panKnob}
             style={{
               left: pct,
               background: color,
-              boxShadow: `0 0 5px ${color}`,
+              transform: `translate(-50%, -50%) rotate(${knobAngle}deg)`,
             }}
-          />
+          >
+            <div className={styles.panKnobIndicator} />
+          </div>
           <div className={styles.dynLabel}>{Math.round(data.dyn * 100)}%</div>
         </>
       )}

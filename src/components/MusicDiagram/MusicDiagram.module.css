@@ -159,7 +159,7 @@
 }
 
 .thCell {
-  width: 72px;
+  width: 88px;
   flex-shrink: 0;
   text-align: center;
   font-size: 7px;
@@ -215,12 +215,12 @@
 
 /* ── ICELL ── */
 .icell {
-  width: 72px;
-  height: 30px;
+  width: 88px;
+  height: 40px;
   flex-shrink: 0;
   border: 1px solid var(--md-border);
   border-radius: 0;
-  background: #c8c5c0;
+  background: #d8d5d0;
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -250,23 +250,73 @@
   transition: height 0.3s ease;
 }
 
-.panDot {
+/* ── PAN KNOB (mixing-desk master style) ── */
+.panKnob {
   position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
-  transition: left 0.3s ease;
+  /* translate + rotate set inline via style prop */
+  transition: left 0.3s ease, transform 0.3s ease;
+
+  /* chrome outer bezel ring */
+  box-shadow:
+    0 0 0 1.5px rgba(0, 0, 0, 0.75),
+    0 0 0 2.5px rgba(255, 255, 255, 0.09),
+    0 0 0 3.5px rgba(0, 0, 0, 0.55),
+    0 4px 10px rgba(0, 0, 0, 0.7),
+    0 2px 4px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
-.panVline {
+/* convex body: highlight top-left, heavy shadow on edges */
+.panKnob::before {
+  content: "";
   position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  opacity: 0 65;
-  transition: left 0.3s ease;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 36% 28%,
+    rgba(255, 255, 255, 0.26) 0%,
+    rgba(255, 255, 255, 0.04) 38%,
+    rgba(0, 0, 0, 0.0) 52%,
+    rgba(0, 0, 0, 0.52) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* inner grip groove ring */
+.panKnob::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* indicator line — bright stripe near the top of the knob cap */
+.panKnobIndicator {
+  position: absolute;
+  width: 2.5px;
+  height: 10px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.98),
+    rgba(255, 255, 255, 0.55)
+  );
+  border-radius: 1px 1px 0 0;
+  left: 50%;
+  top: 3px;
+  transform: translateX(-50%);
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.75), 0 0 2px rgba(255, 255, 255, 1);
+  z-index: 2;
 }
 
 .muteDash {
@@ -330,7 +380,7 @@
 }
 
 .panRulerCell {
-  width: 72px;
+  width: 88px;
   flex-shrink: 0;
   height: 10px;
   position: relative;
