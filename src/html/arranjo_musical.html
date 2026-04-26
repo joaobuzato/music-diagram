@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagrama de Arranjo Musical</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07070f;
+    --surface: #0c0c18;
+    --surface2: #10101c;
+    --border: #1a1a2e;
+    --border2: #252540;
+    --amber: #f5a623;
+    --amber-dim: rgba(245,166,35,0.15);
+    --cyan: #00d0f0;
+    --text: #8888aa;
+    --text-bright: #ccccee;
+    --dim: #333355;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 8px 18px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 17px;
+    letter-spacing: 0.15em;
+    color: var(--amber);
+    flex-shrink: 0;
+  }
+  .song-meta { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .mf { display: flex; align-items: center; gap: 5px; font-size: 9px; }
+  .ml { color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; }
+  .mv {
+    background: transparent; border: none;
+    border-bottom: 1px solid var(--border2);
+    color: var(--text-bright); font-family: 'DM Mono', monospace;
+    font-size: 10px; padding: 1px 4px; outline: none;
+    transition: border-color .2s;
+  }
+  .mv:focus { border-color: var(--amber); }
+  .hint { margin-left: auto; font-size: 8px; color: var(--dim); letter-spacing: .07em; }
+
+  /* ── SECTIONS BAR ── */
+  .sections-bar {
+    display: flex; gap: 1px; padding: 0;
+    background: var(--border); flex-shrink: 0; overflow-x: auto;
+  }
+  .stab {
+    flex: 1; min-width: 64px; padding: 6px 4px;
+    text-align: center; font-size: 8px; letter-spacing: .08em; text-transform: uppercase;
+    cursor: pointer; background: var(--surface2); color: var(--dim);
+    transition: all .15s; border-bottom: 2px solid transparent;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    user-select: none;
+  }
+  .stab:hover { color: var(--text); background: var(--surface); }
+  .stab.active { color: var(--amber); background: var(--surface); border-bottom-color: var(--amber); }
+
+  /* ── MAIN ── */
+  .main { display: flex; flex: 1; overflow: hidden; }
+
+  /* ── TIMELINE ── */
+  .timeline-panel {
+    flex: 1; overflow-y: auto; overflow-x: auto;
+    padding: 14px 10px 14px 14px;
+    display: flex; flex-direction: column; gap: 0;
+  }
+
+  .th-row {
+    display: flex; gap: 2px; margin-bottom: 6px;
+    padding-left: 130px; min-width: max-content;
+  }
+  .th-cell {
+    width: 72px; flex-shrink: 0;
+    text-align: center; font-size: 7px; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--dim); transition: color .15s;
+  }
+  .th-cell.active { color: var(--amber); }
+
+  .grp-label {
+    font-size: 7px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--dim); padding: 8px 0 3px 130px; border-top: 1px solid var(--border);
+    min-width: max-content;
+  }
+  .grp-label:first-of-type { border-top: none; }
+
+  .inst-row {
+    display: flex; align-items: center; gap: 4px;
+    margin-bottom: 2px; min-width: max-content;
+  }
+  .inst-name {
+    width: 118px; text-align: right; font-size: 9px;
+    color: var(--text-bright); white-space: nowrap; flex-shrink: 0;
+  }
+  .inst-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+  .cells-track { display: flex; gap: 2px; }
+
+  /* regular cell */
+  .icell {
+    width: 72px; height: 30px; flex-shrink: 0;
+    border: 1px solid var(--border); border-radius: 2px;
+    background: var(--surface); position: relative; overflow: hidden;
+    cursor: pointer; transition: border-color .15s;
+  }
+  .icell:hover { border-color: var(--border2); }
+  .icell.acol { border-color: rgba(245,166,35,.35); }
+  .icell.acol.has-c { border-color: rgba(245,166,35,.7); }
+
+  .dyn-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    border-radius: 1px 1px 0 0; transition: height .3s ease;
+  }
+  .pan-dot {
+    position: absolute; width: 5px; height: 5px; border-radius: 50%;
+    top: 50%; transform: translate(-50%, -50%);
+    transition: left .3s ease;
+  }
+  .pan-vline {
+    position: absolute; top: 0; bottom: 0; width: 1px; opacity: .35;
+    transition: left .3s ease;
+  }
+  .mute-dash {
+    position: absolute; inset: 0; display: flex; align-items: center;
+    justify-content: center; font-size: 7px; color: var(--dim);
+  }
+
+  /* vocal cell */
+  .vcell {
+    width: 72px; height: 30px; flex-shrink: 0;
+    border: 1px solid var(--border); border-radius: 2px;
+    background: var(--surface); position: relative; overflow: hidden;
+    cursor: pointer; transition: border-color .15s;
+  }
+  .vcell.acol { border-color: rgba(0,208,240,.5); }
+  .vcell svg { width: 100%; height: 100%; display: block; }
+
+  /* vocal intensity row (continuous curve) */
+  .vocal-curve-row {
+    display: flex; align-items: center; gap: 4px; margin-bottom: 2px;
+    min-width: max-content;
+  }
+  .vocal-curve-label {
+    width: 118px; text-align: right; font-size: 9px;
+    color: var(--text-bright); flex-shrink: 0;
+    display: flex; align-items: center; gap: 4px; justify-content: flex-end;
+  }
+  .vocal-curve-track {
+    position: relative; height: 40px; flex: 1; min-width: 0;
+  }
+  .vocal-curve-track svg { display: block; }
+
+  /* ── STEREO PANEL ── */
+  .stereo-panel {
+    width: 300px; flex-shrink: 0;
+    border-left: 1px solid var(--border);
+    background: var(--surface);
+    display: flex; flex-direction: column;
+    padding: 12px; gap: 8px; overflow-y: auto;
+  }
+  .ptitle {
+    font-size: 7px; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--dim);
+  }
+  .sec-label-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px; letter-spacing: .12em; color: var(--amber);
+  }
+  #stereoCanvas { width: 100%; display: block; border-radius: 3px; }
+  .stereo-lr {
+    display: flex; justify-content: space-between;
+    font-size: 7px; color: var(--dim); letter-spacing: .1em;
+  }
+  .stereo-dept {
+    display: flex; justify-content: space-between;
+    font-size: 7px; color: var(--dim); letter-spacing: .07em;
+    flex-direction: column; gap: 2px;
+  }
+  .tip-block {
+    border-top: 1px solid var(--border); padding-top: 8px;
+    font-size: 8px; color: var(--dim); line-height: 1.8;
+  }
+  .tip-block strong { color: var(--text); }
+  .freq-legend { display: flex; flex-direction: column; gap: 4px; }
+  .freq-item { display: flex; align-items: center; gap: 6px; font-size: 8px; color: var(--text); }
+  .freq-pill { width: 10px; height: 3px; border-radius: 2px; flex-shrink: 0; }
+
+  ::-webkit-scrollbar { width: 3px; height: 3px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">◈ ARRANJO</div>
+  <div class="song-meta">
+    <div class="mf"><span class="ml">Música</span><input class="mv" style="width:130px" value="Nome da Música"></div>
+    <div class="mf"><span class="ml">Artista</span><input class="mv" style="width:110px" value="Artista"></div>
+    <div class="mf"><span class="ml">BPM</span><input class="mv" style="width:44px" value="120"></div>
+    <div class="mf"><span class="ml">Tom</span><input class="mv" style="width:66px" value="C Maior"></div>
+  </div>
+  <div class="hint">CLIQUE EM UMA SEÇÃO PARA ATUALIZAR O CAMPO ESTÉREO →</div>
+</header>
+
+<div class="sections-bar" id="sectionsBar"></div>
+
+<div class="main">
+  <div class="timeline-panel" id="timelinePanel"></div>
+  <div class="stereo-panel">
+    <div class="ptitle">Campo Estéreo · Art of Mixing</div>
+    <div class="sec-label-big" id="stereoLabel">INTRO</div>
+    <canvas id="stereoCanvas" width="276" height="210"></canvas>
+    <div class="stereo-lr"><span>◄ ESQUERDA</span><span>DIREITA ►</span></div>
+    <div style="font-size:7px;color:var(--dim);letter-spacing:.07em;display:flex;justify-content:space-between;margin-top:2px">
+      <span>▲ próximo</span><span>distante ▼</span>
+    </div>
+    <div class="tip-block">
+      <strong>Leitura:</strong><br>
+      — Horizontal = panorâmica (L / R)<br>
+      — Vertical = proeminência na mix<br>
+      — Tamanho = dinâmica<br>
+      — Cor = faixa de frequência
+    </div>
+    <div class="tip-block">
+      <div class="ptitle" style="margin-bottom:6px">Frequências</div>
+      <div class="freq-legend">
+        <div class="freq-item"><div class="freq-pill" style="background:#ff6035"></div>Sub / Graves</div>
+        <div class="freq-item"><div class="freq-pill" style="background:#f5a623"></div>Médios-Baixos</div>
+        <div class="freq-item"><div class="freq-pill" style="background:#00d0f0"></div>Médios-Altos</div>
+        <div class="freq-item"><div class="freq-pill" style="background:#b388ff"></div>Agudos</div>
+        <div class="freq-item"><div class="freq-pill" style="background:#00e676"></div>Vocal</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ────────────────────────────────────────────────────
+// DATA
+// ────────────────────────────────────────────────────
+const SECTIONS = [
+  'Intro','Verso 1','Pré-Refrão','Refrão 1',
+  'Verso 2','Pré-Refrão','Refrão 2','Ponte','Final'
+];
+
+// pan: -1 (hard L) → 0 (center) → +1 (hard R)
+// dyn: 0 (mudo) → 1 (pleno)
+// prom: 0 (fundo da mix) → 1 (frente/protagonista) — para profundidade no campo estéreo
+
+const GROUPS = [
+  { label: 'Percussão', instruments: [
+    { id:'kick', name:'Bumbo', color:'#ff6035', freq:'sub', data:[
+      {pan:0,   dyn:0,    prom:0   },
+      {pan:0,   dyn:0.75, prom:0.72},
+      {pan:0,   dyn:0.85, prom:0.8 },
+      {pan:0,   dyn:1.0,  prom:0.9 },
+      {pan:0,   dyn:0.72, prom:0.68},
+      {pan:0,   dyn:0.85, prom:0.8 },
+      {pan:0,   dyn:1.0,  prom:0.95},
+      {pan:0,   dyn:0.9,  prom:0.85},
+      {pan:0,   dyn:0.45, prom:0.4 },
+    ]},
+    { id:'snare', name:'Caixa', color:'#ffa040', freq:'low-mid', data:[
+      {pan:0.05,dyn:0,    prom:0   },
+      {pan:0.05,dyn:0.7,  prom:0.65},
+      {pan:0.05,dyn:0.8,  prom:0.75},
+      {pan:0.05,dyn:0.95, prom:0.88},
+      {pan:0.05,dyn:0.65, prom:0.6 },
+      {pan:0.05,dyn:0.8,  prom:0.75},
+      {pan:0.05,dyn:0.95, prom:0.9 },
+      {pan:0.05,dyn:0.88, prom:0.82},
+      {pan:0.05,dyn:0.4,  prom:0.38},
+    ]},
+    { id:'hihat', name:'Hi-Hat', color:'#ffe082', freq:'high', data:[
+      {pan:0.35, dyn:0,    prom:0   },
+      {pan:0.35, dyn:0.55, prom:0.38},
+      {pan:0.35, dyn:0.65, prom:0.48},
+      {pan:0.35, dyn:0.7,  prom:0.58},
+      {pan:0.35, dyn:0.5,  prom:0.35},
+      {pan:0.35, dyn:0.65, prom:0.48},
+      {pan:0.35, dyn:0.75, prom:0.62},
+      {pan:0.35, dyn:0.7,  prom:0.58},
+      {pan:0.35, dyn:0.35, prom:0.28},
+    ]},
+    { id:'crash', name:'Prato / Crash', color:'#fff176', freq:'high', data:[
+      {pan:-0.4, dyn:0,    prom:0   },
+      {pan:-0.4, dyn:0.3,  prom:0.2 },
+      {pan:-0.4, dyn:0.4,  prom:0.3 },
+      {pan:-0.4, dyn:0.75, prom:0.62},
+      {pan:-0.4, dyn:0.25, prom:0.18},
+      {pan:-0.4, dyn:0.4,  prom:0.3 },
+      {pan:-0.4, dyn:0.8,  prom:0.68},
+      {pan:-0.4, dyn:0.6,  prom:0.5 },
+      {pan:-0.4, dyn:0.3,  prom:0.22},
+    ]},
+  ]},
+  { label: 'Graves', instruments: [
+    { id:'bass', name:'Baixo', color:'#ea4c89', freq:'sub', data:[
+      {pan:0, dyn:0.5,  prom:0.45},
+      {pan:0, dyn:0.8,  prom:0.78},
+      {pan:0, dyn:0.85, prom:0.83},
+      {pan:0, dyn:0.95, prom:0.92},
+      {pan:0, dyn:0.75, prom:0.72},
+      {pan:0, dyn:0.85, prom:0.83},
+      {pan:0, dyn:1.0,  prom:0.98},
+      {pan:0, dyn:0.9,  prom:0.88},
+      {pan:0, dyn:0.55, prom:0.5 },
+    ]},
+  ]},
+  { label: 'Harmônicos', instruments: [
+    { id:'gtr_r', name:'Guitarra Ritmo', color:'#66bb6a', freq:'high-mid', data:[
+      {pan:-0.65,dyn:0,   prom:0   },
+      {pan:-0.65,dyn:0.6, prom:0.5 },
+      {pan:-0.65,dyn:0.7, prom:0.6 },
+      {pan:-0.65,dyn:0.88,prom:0.78},
+      {pan:-0.65,dyn:0.55,prom:0.45},
+      {pan:-0.65,dyn:0.7, prom:0.6 },
+      {pan:-0.65,dyn:0.92,prom:0.82},
+      {pan:-0.65,dyn:0.82,prom:0.72},
+      {pan:-0.65,dyn:0.28,prom:0.22},
+    ]},
+    { id:'gtr_l', name:'Guitarra Solo', color:'#26c6da', freq:'high-mid', data:[
+      {pan:0.6,  dyn:0,    prom:0   },
+      {pan:0.6,  dyn:0,    prom:0   },
+      {pan:0.6,  dyn:0.5,  prom:0.4 },
+      {pan:0.6,  dyn:0.8,  prom:0.7 },
+      {pan:0.6,  dyn:0,    prom:0   },
+      {pan:0.6,  dyn:0.5,  prom:0.4 },
+      {pan:0.6,  dyn:0.88, prom:0.78},
+      {pan:0.25, dyn:0.95, prom:0.9 },
+      {pan:0.6,  dyn:0.65, prom:0.55},
+    ]},
+    { id:'keys', name:'Teclado / Pad', color:'#ab47bc', freq:'high-mid', data:[
+      {pan:0.0,  dyn:0.7,  prom:0.58},
+      {pan:0.0,  dyn:0.28, prom:0.22},
+      {pan:0.0,  dyn:0.48, prom:0.38},
+      {pan:0.0,  dyn:0.72, prom:0.62},
+      {pan:0.0,  dyn:0.28, prom:0.22},
+      {pan:0.0,  dyn:0.48, prom:0.38},
+      {pan:0.0,  dyn:0.78, prom:0.68},
+      {pan:0.2,  dyn:0.88, prom:0.8 },
+      {pan:0.0,  dyn:0.82, prom:0.75},
+    ]},
+  ]},
+  { label: 'Vocais', instruments: [
+    {
+      id:'vocal', name:'Vocal Principal', color:'#00e676', freq:'vocal',
+      isVocal: true,
+      data:[
+        {pan:0, dyn:0,    intensity:0   },
+        {pan:0, dyn:0.72, intensity:0.55},
+        {pan:0, dyn:0.82, intensity:0.73},
+        {pan:0, dyn:0.92, intensity:0.93},
+        {pan:0, dyn:0.67, intensity:0.62},
+        {pan:0, dyn:0.82, intensity:0.78},
+        {pan:0, dyn:0.95, intensity:0.98},
+        {pan:0, dyn:0.88, intensity:0.88},
+        {pan:0, dyn:0.38, intensity:0.32},
+      ]
+    },
+    { id:'bv', name:'Back Vocal', color:'#80cbc4', freq:'high', data:[
+      {pan:0.0,  dyn:0,    prom:0   },
+      {pan:0.0,  dyn:0,    prom:0   },
+      {pan:0.45, dyn:0.38, prom:0.3 },
+      {pan:0.45, dyn:0.62, prom:0.52},
+      {pan:0.0,  dyn:0,    prom:0   },
+      {pan:0.45, dyn:0.38, prom:0.3 },
+      {pan:0.45, dyn:0.68, prom:0.58},
+      {pan:0.45, dyn:0.75, prom:0.65},
+      {pan:0.0,  dyn:0.28, prom:0.22},
+    ]},
+  ]},
+];
+
+const ALL_INSTS = GROUPS.flatMap(g => g.instruments);
+
+// ────────────────────────────────────────────────────
+// STATE
+// ────────────────────────────────────────────────────
+let activeSection = 0;
+
+// ────────────────────────────────────────────────────
+// SECTIONS BAR
+// ────────────────────────────────────────────────────
+function buildSectionsBar() {
+  const bar = document.getElementById('sectionsBar');
+  SECTIONS.forEach((sec, i) => {
+    const t = document.createElement('div');
+    t.className = 'stab' + (i === 0 ? ' active' : '');
+    t.textContent = sec;
+    t.addEventListener('click', () => { activeSection = i; updateActive(); });
+    bar.appendChild(t);
+  });
+}
+
+// ────────────────────────────────────────────────────
+// TIMELINE
+// ────────────────────────────────────────────────────
+function buildTimeline() {
+  const panel = document.getElementById('timelinePanel');
+
+  // Header row
+  const hrow = document.createElement('div');
+  hrow.className = 'th-row';
+  SECTIONS.forEach((s, i) => {
+    const c = document.createElement('div');
+    c.className = 'th-cell' + (i === 0 ? ' active' : '');
+    c.dataset.si = i;
+    c.textContent = s;
+    hrow.appendChild(c);
+  });
+  panel.appendChild(hrow);
+
+  // Vocal principal: continuous intensity curve across ALL sections
+  // (rendered separately as a wide SVG before the group label)
+  // We'll render it inside the Vocais group below
+
+  GROUPS.forEach(group => {
+    const gl = document.createElement('div');
+    gl.className = 'grp-label';
+    gl.textContent = '— ' + group.label;
+    panel.appendChild(gl);
+
+    group.instruments.forEach(inst => {
+      if (inst.isVocal) {
+        // ── Vocal Principal: special curve row ──
+        const crow = document.createElement('div');
+        crow.className = 'vocal-curve-row';
+
+        const lbl = document.createElement('div');
+        lbl.className = 'vocal-curve-label';
+        lbl.innerHTML = `<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${inst.color};flex-shrink:0"></span>${inst.name}`;
+        crow.appendChild(lbl);
+
+        const dot2 = document.createElement('div');
+        dot2.style.cssText = 'width:6px;height:6px;border-radius:50%;flex-shrink:0';
+        crow.appendChild(dot2);
+
+        // Build continuous SVG intensity curve
+        const N = SECTIONS.length;
+        const cellW = 72, gap = 2;
+        const totalW = N * cellW + (N - 1) * gap;
+        const H = 40;
+
+        const container = document.createElement('div');
+        container.style.cssText = `position:relative;height:${H}px;flex-shrink:0`;
+
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('width', totalW);
+        svg.setAttribute('height', H);
+        svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+
+        // Grid lines at 25%, 50%, 75%
+        [0.25, 0.5, 0.75, 1].forEach(v => {
+          const y = H - v * (H - 6) - 3;
+          const gl2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          gl2.setAttribute('x1', 0); gl2.setAttribute('x2', totalW);
+          gl2.setAttribute('y1', y); gl2.setAttribute('y2', y);
+          gl2.setAttribute('stroke', '#1a1a2e'); gl2.setAttribute('stroke-width', 1);
+          svg.appendChild(gl2);
+        });
+
+        // Active section highlight
+        const highlight = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        highlight.setAttribute('y', 0); highlight.setAttribute('height', H);
+        highlight.setAttribute('fill', 'rgba(245,166,35,0.08)');
+        highlight.setAttribute('rx', 2);
+        highlight.id = 'vcHighlight';
+        svg.appendChild(highlight);
+
+        // Build points: center of each section cell + bezier through them
+        function getX(i) { return i * (cellW + gap) + cellW / 2; }
+        function getY(v) { return H - 4 - v * (H - 10); }
+
+        const pts = inst.data.map((d, i) => ({ x: getX(i), y: getY(d.intensity) }));
+
+        // Smooth bezier path
+        let d = `M ${pts[0].x},${pts[0].y}`;
+        for (let i = 0; i < pts.length - 1; i++) {
+          const mx = (pts[i].x + pts[i + 1].x) / 2;
+          d += ` C ${mx},${pts[i].y} ${mx},${pts[i + 1].y} ${pts[i + 1].x},${pts[i + 1].y}`;
+        }
+
+        // Fill below
+        const fill = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        fill.setAttribute('d', d + ` L ${pts[N-1].x},${H} L ${pts[0].x},${H} Z`);
+        fill.setAttribute('fill', inst.color);
+        fill.setAttribute('opacity', '0.12');
+        svg.appendChild(fill);
+
+        // Stroke
+        const stroke = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        stroke.setAttribute('d', d);
+        stroke.setAttribute('fill', 'none');
+        stroke.setAttribute('stroke', inst.color);
+        stroke.setAttribute('stroke-width', '1.5');
+        stroke.setAttribute('opacity', '0.85');
+        svg.appendChild(stroke);
+
+        // Dots at each section
+        pts.forEach((p, i) => {
+          const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          dot.setAttribute('cx', p.x); dot.setAttribute('cy', p.y);
+          dot.setAttribute('r', inst.data[i].intensity > 0 ? 3 : 1.5);
+          dot.setAttribute('fill', inst.color);
+          dot.setAttribute('opacity', inst.data[i].intensity > 0 ? '0.9' : '0.3');
+          svg.appendChild(dot);
+
+          // Intensity label
+          if (inst.data[i].intensity > 0) {
+            const pct = Math.round(inst.data[i].intensity * 100);
+            const lbl2 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            lbl2.setAttribute('x', p.x);
+            lbl2.setAttribute('y', p.y - 5);
+            lbl2.setAttribute('text-anchor', 'middle');
+            lbl2.setAttribute('font-size', '6');
+            lbl2.setAttribute('fill', inst.color);
+            lbl2.setAttribute('opacity', '0.7');
+            lbl2.textContent = pct + '%';
+            svg.appendChild(lbl2);
+          }
+        });
+
+        // Section dividers
+        for (let i = 1; i < N; i++) {
+          const x = i * (cellW + gap) - gap / 2;
+          const vl = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          vl.setAttribute('x1', x); vl.setAttribute('x2', x);
+          vl.setAttribute('y1', 0); vl.setAttribute('y2', H);
+          vl.setAttribute('stroke', '#1a1a2e'); vl.setAttribute('stroke-width', 1);
+          svg.appendChild(vl);
+        }
+
+        container.appendChild(svg);
+        crow.appendChild(container);
+        panel.appendChild(crow);
+
+        // Intensity sub-label
+        const sub = document.createElement('div');
+        sub.style.cssText = 'padding-left:136px;font-size:7px;color:var(--dim);letter-spacing:.08em;margin-bottom:2px;margin-top:-1px;min-width:max-content';
+        sub.textContent = '— intensidade emocional (não é volume)';
+        panel.appendChild(sub);
+
+      } else {
+        // ── Regular instrument row ──
+        const row = document.createElement('div');
+        row.className = 'inst-row';
+
+        const nameEl = document.createElement('div');
+        nameEl.className = 'inst-name';
+        nameEl.textContent = inst.name;
+        row.appendChild(nameEl);
+
+        const dotEl = document.createElement('div');
+        dotEl.className = 'inst-dot';
+        dotEl.style.background = inst.color;
+        row.appendChild(dotEl);
+
+        const track = document.createElement('div');
+        track.className = 'cells-track';
+
+        SECTIONS.forEach((sec, i) => {
+          const d = inst.data[i];
+          const muted = d.dyn === 0;
+          const cell = document.createElement('div');
+          cell.className = 'icell' + (i === 0 ? ' acol' : '') + (!muted ? ' has-c' : '');
+          cell.dataset.si = i;
+          cell.dataset.iid = inst.id;
+
+          if (!muted) {
+            // Dynamic bar
+            const bar = document.createElement('div');
+            bar.className = 'dyn-bar';
+            bar.style.height = (d.dyn * 100) + '%';
+            bar.style.background = `linear-gradient(to top, ${inst.color}cc, ${inst.color}22)`;
+            cell.appendChild(bar);
+
+            // Pan vertical line
+            const pct = ((d.pan + 1) / 2 * 100);
+            const vl = document.createElement('div');
+            vl.className = 'pan-vline';
+            vl.style.left = pct + '%';
+            vl.style.background = inst.color;
+            cell.appendChild(vl);
+
+            // Pan dot
+            const pd = document.createElement('div');
+            pd.className = 'pan-dot';
+            pd.style.left = pct + '%';
+            pd.style.background = inst.color;
+            pd.style.boxShadow = `0 0 5px ${inst.color}`;
+            cell.appendChild(pd);
+
+            // Dynamic label
+            const dl = document.createElement('div');
+            dl.style.cssText = 'position:absolute;bottom:2px;right:3px;font-size:6px;color:rgba(255,255,255,.25)';
+            dl.textContent = Math.round(d.dyn * 100) + '%';
+            cell.appendChild(dl);
+          } else {
+            const md = document.createElement('div');
+            md.className = 'mute-dash';
+            md.textContent = '—';
+            cell.appendChild(md);
+          }
+
+          cell.addEventListener('click', () => { activeSection = i; updateActive(); });
+          track.appendChild(cell);
+        });
+
+        row.appendChild(track);
+        panel.appendChild(row);
+      }
+    });
+  });
+
+  // Pan ruler row at bottom
+  const prrow = document.createElement('div');
+  prrow.style.cssText = 'display:flex;gap:2px;padding-left:130px;margin-top:10px;border-top:1px solid var(--border);padding-top:8px;min-width:max-content';
+  SECTIONS.forEach((_, i) => {
+    const rc = document.createElement('div');
+    rc.style.cssText = 'width:72px;flex-shrink:0;height:10px;position:relative;display:flex;align-items:center';
+    // L C R ticks
+    ['L', 'C', 'R'].forEach((lbl, j) => {
+      const tick = document.createElement('span');
+      tick.style.cssText = `position:absolute;font-size:6px;color:var(--dim);letter-spacing:.06em;top:0;transform:translateX(-50%)`;
+      tick.style.left = (j * 50) + '%';
+      tick.textContent = lbl;
+      rc.appendChild(tick);
+    });
+    // Tick marks
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '72'); svg.setAttribute('height', '10');
+    [0, 50, 100].forEach(x => {
+      const tl = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      tl.setAttribute('x1', x * 0.72); tl.setAttribute('x2', x * 0.72);
+      tl.setAttribute('y1', 5); tl.setAttribute('y2', 10);
+      tl.setAttribute('stroke', '#252540'); tl.setAttribute('stroke-width', 1);
+      svg.appendChild(tl);
+    });
+    rc.appendChild(svg);
+    prrow.appendChild(rc);
+  });
+  panel.appendChild(prrow);
+}
+
+// ────────────────────────────────────────────────────
+// STEREO FIELD CANVAS (Art of Mixing style)
+// ────────────────────────────────────────────────────
+const FCOLORS = {
+  'sub':      '#ff6035',
+  'low-mid':  '#f5a623',
+  'high-mid': '#00d0f0',
+  'high':     '#b388ff',
+  'vocal':    '#00e676',
+};
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+
+function drawStereo(si) {
+  const canvas = document.getElementById('stereoCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Background gradient
+  const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+  bgGrad.addColorStop(0, '#0a0a16');
+  bgGrad.addColorStop(1, '#080810');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Stage trapezoid definition
+  const nL = 8, nR = W - 8;          // near (bottom) left/right
+  const fL = W * 0.22, fR = W * 0.78; // far (top) left/right
+  const yNear = H - 22, yFar = 12;
+
+  // Floor depth gradient
+  const floorGrad = ctx.createLinearGradient(0, yFar, 0, yNear);
+  floorGrad.addColorStop(0, 'rgba(10,10,30,0)');
+  floorGrad.addColorStop(1, 'rgba(245,166,35,0.04)');
+  ctx.beginPath();
+  ctx.moveTo(nL, yNear); ctx.lineTo(fL, yFar);
+  ctx.lineTo(fR, yFar); ctx.lineTo(nR, yNear);
+  ctx.closePath();
+  ctx.fillStyle = floorGrad;
+  ctx.fill();
+
+  // Perspective grid (horizontal depth lines)
+  const nDepth = 8;
+  for (let i = 0; i <= nDepth; i++) {
+    const t = i / nDepth;
+    const y = lerp(yNear, yFar, t);
+    const xl = lerp(nL, fL, t), xr = lerp(nR, fR, t);
+    ctx.beginPath();
+    ctx.moveTo(xl, y); ctx.lineTo(xr, y);
+    const a = 0.15 - t * 0.08;
+    ctx.strokeStyle = `rgba(40,40,80,${a > 0 ? a : 0.04})`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // Vertical perspective lines (left-right)
+  const nVert = 10;
+  for (let i = 0; i <= nVert; i++) {
+    const t = i / nVert;
+    const xN = lerp(nL, nR, t), xF = lerp(fL, fR, t);
+    ctx.beginPath();
+    ctx.moveTo(xN, yNear); ctx.lineTo(xF, yFar);
+    ctx.strokeStyle = 'rgba(30,30,60,0.2)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // Stage outline
+  ctx.beginPath();
+  ctx.moveTo(nL, yNear); ctx.lineTo(fL, yFar);
+  ctx.lineTo(fR, yFar); ctx.lineTo(nR, yNear);
+  ctx.closePath();
+  ctx.strokeStyle = '#1e1e38';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  // Center dashed line
+  ctx.beginPath();
+  ctx.moveTo(W / 2, yNear); ctx.lineTo(W / 2, yFar);
+  ctx.strokeStyle = 'rgba(245,166,35,0.12)';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([3, 5]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Speaker markers
+  ctx.fillStyle = 'rgba(245,166,35,0.5)';
+  ctx.font = '8px DM Mono,monospace';
+  ctx.textAlign = 'center';
+  // Left speaker
+  ctx.fillText('◄', nL + 2, yNear + 14);
+  // Right speaker
+  ctx.fillText('►', nR - 2, yNear + 14);
+
+  // Listener triangle
+  const lx = W / 2, ly = yNear + 14;
+  ctx.beginPath();
+  ctx.moveTo(lx, yNear + 6);
+  ctx.lineTo(lx - 5, ly + 5);
+  ctx.lineTo(lx + 5, ly + 5);
+  ctx.closePath();
+  ctx.strokeStyle = 'rgba(245,166,35,0.35)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // "FAR" label
+  ctx.fillStyle = 'rgba(80,80,120,0.7)';
+  ctx.font = '6px DM Mono,monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('FUNDO DA MIX', W / 2, yFar - 2);
+
+  // Draw instruments
+  ALL_INSTS.forEach(inst => {
+    const d = inst.data[si];
+    if (!d) return;
+    const dyn = d.dyn || 0;
+    const prom = inst.isVocal ? (d.intensity || 0) : (d.prom || 0);
+    if (dyn === 0 && prom === 0) return;
+
+    // Perspective mapping
+    const depth = prom; // 1=near, 0=far
+    const t = 1 - depth; // t=0 near, t=1 far (for lerp)
+
+    const y = lerp(yNear, yFar + 8, t);
+    const xl = lerp(nL, fL, t), xr = lerp(nR, fR, t);
+    const panT = (d.pan + 1) / 2;
+    const x = lerp(xl, xr, panT);
+
+    const baseR = 5 + dyn * 10;
+    const r = baseR * lerp(1, 0.4, t);
+
+    const color = FCOLORS[inst.freq] || '#ffffff';
+
+    // Outer glow
+    const grd = ctx.createRadialGradient(x, y, 0, x, y, r * 3);
+    grd.addColorStop(0, color + '50');
+    grd.addColorStop(1, color + '00');
+    ctx.beginPath();
+    ctx.arc(x, y, r * 3, 0, Math.PI * 2);
+    ctx.fillStyle = grd;
+    ctx.fill();
+
+    // Dot
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = color + 'bb';
+    ctx.fill();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Label
+    const fs = Math.max(6, lerp(9, 6.5, t));
+    ctx.font = `${fs}px DM Mono,monospace`;
+    ctx.textAlign = 'center';
+    ctx.fillStyle = color;
+    ctx.globalAlpha = lerp(1, 0.6, t);
+    const shortName = inst.name.split(' ')[0];
+    ctx.fillText(shortName, x, y - r - 3);
+    ctx.globalAlpha = 1;
+  });
+}
+
+// ────────────────────────────────────────────────────
+// UPDATE ACTIVE
+// ────────────────────────────────────────────────────
+function updateActive() {
+  // Section tabs
+  document.querySelectorAll('.stab').forEach((t, i) => {
+    t.classList.toggle('active', i === activeSection);
+  });
+
+  // Timeline header
+  document.querySelectorAll('.th-cell').forEach(c => {
+    c.classList.toggle('active', parseInt(c.dataset.si) === activeSection);
+  });
+
+  // Instrument cells
+  document.querySelectorAll('.icell').forEach(c => {
+    const i = parseInt(c.dataset.si);
+    const iid = c.dataset.iid;
+    const inst = ALL_INSTS.find(x => x.id === iid);
+    const muted = inst && inst.data[i].dyn === 0;
+    c.classList.toggle('acol', i === activeSection);
+    if (!muted) c.classList.toggle('has-c', true);
+  });
+
+  // Vocal curve highlight
+  const vc = document.getElementById('vcHighlight');
+  if (vc) {
+    const cellW = 72, gap = 2;
+    vc.setAttribute('x', activeSection * (cellW + gap));
+    vc.setAttribute('width', cellW);
+  }
+
+  // Stereo label
+  document.getElementById('stereoLabel').textContent = SECTIONS[activeSection].toUpperCase();
+
+  // Redraw stereo
+  drawStereo(activeSection);
+}
+
+// ────────────────────────────────────────────────────
+// INIT
+// ────────────────────────────────────────────────────
+buildSectionsBar();
+buildTimeline();
+drawStereo(0);
+
+// Highlight vocal section on load
+const vc0 = document.getElementById('vcHighlight');
+if (vc0) { vc0.setAttribute('x', 0); vc0.setAttribute('width', 72); }
+</script>
+</body>
+</html>

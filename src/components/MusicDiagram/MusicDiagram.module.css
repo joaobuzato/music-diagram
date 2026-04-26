@@ -1,0 +1,447 @@
+.musicDiagram {
+  --md-bg: #eceae7;
+  --md-surface: #e3e0dc;
+  --md-surface2: #d6d3ce;
+  --md-border: #c0bcb6;
+  --md-border2: #9a9690;
+  --md-amber: #d41e22;
+  --md-amber-dim: rgba(212, 30, 34, 0.12);
+  --md-cyan: #1b56e4;
+  --md-text: #5a5854;
+  --md-text-bright: #1e1c18;
+  --md-dim: #8a8782;
+
+  /* JHS Color Box section palette */
+  --jhs-red: #d41e22;
+  --jhs-blue: #1b56e4;
+  --jhs-green: #1aaf3c;
+  --jhs-yellow: #d4a000;
+
+  background: var(--md-bg);
+  color: var(--md-text);
+  font-family: "DM Mono", monospace;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* ── HEADER ── */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 8px 18px;
+  border-bottom: 2px solid var(--md-border);
+  background: var(--md-surface);
+  flex-shrink: 0;
+}
+
+.logo {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 17px;
+  letter-spacing: 0.15em;
+  color: var(--jhs-red);
+  flex-shrink: 0;
+}
+
+.songMeta {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.mf {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+}
+
+.ml {
+  color: var(--md-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.mv {
+  background: var(--md-bg);
+  border: 1px solid var(--md-border);
+  color: var(--md-text-bright);
+  font-family: "DM Mono", monospace;
+  font-size: 10px;
+  padding: 1px 4px;
+  outline: none;
+  transition: border-color 0.2s;
+  border-radius: 0;
+}
+
+.mv:focus {
+  border-color: var(--jhs-blue);
+}
+
+.hint {
+  margin-left: auto;
+  font-size: 8px;
+  color: var(--md-dim);
+  letter-spacing: 0.07em;
+}
+
+/* ── SECTIONS BAR ── */
+.sectionsBar {
+  display: flex;
+  gap: 1px;
+  padding: 0;
+  background: var(--md-border);
+  flex-shrink: 0;
+  overflow-x: auto;
+}
+
+.stab {
+  flex: 1;
+  min-width: 64px;
+  padding: 6px 4px;
+  text-align: center;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: var(--md-surface2);
+  color: var(--stab-color, var(--md-dim));
+  transition: all 0.12s;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+  font-family: "Bebas Neue", sans-serif;
+}
+
+.stab:hover {
+  background: var(--md-surface);
+  color: var(--stab-color, var(--md-text));
+  border-bottom-color: var(--stab-color, var(--md-border2));
+}
+
+.stab.active {
+  background: var(--stab-color, var(--md-amber));
+  color: #fff;
+  border-bottom: 2px solid transparent;
+  font-weight: 700;
+}
+
+/* ── MAIN ── */
+.main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── TIMELINE ── */
+.timelinePanel {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: auto;
+  padding: 14px 10px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.thRow {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 6px;
+  padding-left: 130px;
+  min-width: max-content;
+}
+
+.thCell {
+  width: 72px;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 7px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--md-dim);
+  transition: color 0.15s;
+}
+
+.thCell.active {
+  color: var(--md-text-bright);
+  font-weight: 700;
+}
+
+.grpLabel {
+  font-size: 7px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--md-dim);
+  padding: 8px 0 3px 130px;
+  border-top: 1px solid var(--md-border);
+  min-width: max-content;
+}
+
+.instRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 2px;
+  min-width: max-content;
+}
+
+.instName {
+  width: 118px;
+  text-align: right;
+  font-size: 9px;
+  color: var(--md-text-bright);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.instDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cellsTrack {
+  display: flex;
+  gap: 2px;
+}
+
+/* ── ICELL ── */
+.icell {
+  width: 72px;
+  height: 30px;
+  flex-shrink: 0;
+  border: 1px solid var(--md-border);
+  border-radius: 0;
+  background: #c8c5c0;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.icell:hover {
+  border-color: var(--md-border2);
+}
+
+.icell.acol {
+  border-color: var(--md-border2);
+  outline: 2px solid var(--md-text-bright);
+  outline-offset: -1px;
+}
+
+.icell.acol.hasC {
+  outline-color: var(--md-text-bright);
+}
+
+.dynBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 0;
+  transition: height 0.3s ease;
+}
+
+.panDot {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 0;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: left 0.3s ease;
+}
+
+.panVline {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  opacity: 0 65;
+  transition: left 0.3s ease;
+}
+
+.muteDash {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 7px;
+  color: var(--md-dim);
+}
+
+.dynLabel {
+  position: absolute;
+  bottom: 2px;
+  right: 3px;
+  font-size: 8px;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+/* ── VOCAL CURVE ── */
+.vocalCurveRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 2px;
+  min-width: max-content;
+}
+
+.vocalCurveLabel {
+  width: 118px;
+  text-align: right;
+  font-size: 9px;
+  color: var(--md-text-bright);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+.vocalSubLabel {
+  padding-left: 136px;
+  font-size: 7px;
+  color: var(--md-dim);
+  letter-spacing: 0.08em;
+  margin-bottom: 2px;
+  margin-top: -1px;
+  min-width: max-content;
+}
+
+/* ── PAN RULER ── */
+.panRulerRow {
+  display: flex;
+  gap: 2px;
+  padding-left: 130px;
+  margin-top: 10px;
+  border-top: 1px solid var(--md-border);
+  padding-top: 8px;
+  min-width: max-content;
+}
+
+.panRulerCell {
+  width: 72px;
+  flex-shrink: 0;
+  height: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.panTick {
+  position: absolute;
+  font-size: 6px;
+  color: var(--md-dim);
+  letter-spacing: 0.06em;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+/* ── STEREO PANEL ── */
+.stereoPanel {
+  width: 300px;
+  flex-shrink: 0;
+  border-left: 1px solid var(--md-border);
+  background: var(--md-surface);
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.ptitle {
+  font-size: 7px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--md-dim);
+}
+
+.secLabelBig {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  color: var(--md-text-bright);
+}
+
+.stereoCanvas {
+  width: 100%;
+  display: block;
+  border-radius: 0;
+  border: 1px solid var(--md-border);
+}
+
+.stereoLr {
+  display: flex;
+  justify-content: space-between;
+  font-size: 7px;
+  color: var(--md-dim);
+  letter-spacing: 0.1em;
+}
+
+.stereoDept {
+  display: flex;
+  justify-content: space-between;
+  font-size: 7px;
+  color: var(--md-dim);
+  letter-spacing: 0.07em;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tipBlock {
+  border-top: 1px solid var(--md-border);
+  padding-top: 8px;
+  font-size: 8px;
+  color: var(--md-dim);
+  line-height: 1.8;
+}
+
+.tipBlock strong {
+  color: var(--md-text);
+}
+
+/* ── FREQ LEGEND ── */
+.freqLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.freqItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 8px;
+  color: var(--md-text);
+}
+
+.freqPill {
+  width: 10px;
+  height: 3px;
+  border-radius: 0;
+  flex-shrink: 0;
+}
+
+/* ── SCROLLBAR ── */
+.musicDiagram ::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+.musicDiagram ::-webkit-scrollbar-track {
+  background: var(--md-border);
+}
+.musicDiagram ::-webkit-scrollbar-thumb {
+  background: var(--md-border2);
+  border-radius: 0;
+}
