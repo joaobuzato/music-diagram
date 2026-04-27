@@ -21,14 +21,14 @@ export function MusicDiagram({ music }: Readonly<MusicDiagramProps>) {
         activeSection={activeSection}
         onSectionChange={setActiveSection}
       />
-      <div className={styles.main}>
+      <main className={styles.main} aria-label="Diagrama de arranjo">
         <TimelinePanel
           music={music}
           activeSection={activeSection}
           onSectionChange={setActiveSection}
         />
         <StereoPanel music={music} activeSection={activeSection} />
-      </div>
+      </main>
     </div>
   );
 }

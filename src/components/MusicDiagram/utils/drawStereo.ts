@@ -14,7 +14,11 @@ export function drawStereoField(
 ): void {
   ctx.clearRect(0, 0, W, H);
 
-  ctx.fillStyle = '#E3E0DC';
+  const screenGrad = ctx.createLinearGradient(0, 0, 0, H);
+  screenGrad.addColorStop(0, '#d9d5d0');
+  screenGrad.addColorStop(0.5, '#e3e0dc');
+  screenGrad.addColorStop(1, '#d4d0ca');
+  ctx.fillStyle = screenGrad;
   ctx.fillRect(0, 0, W, H);
 
   const nL = 8, nR = W - 8;
@@ -140,4 +144,13 @@ export function drawStereoField(
     ctx.fillText(inst.name.split(' ')[0], x, y - r - 3);
     ctx.globalAlpha = 1;
   });
+
+  const vignette = ctx.createRadialGradient(
+    W / 2, H / 2, Math.min(W, H) * 0.35,
+    W / 2, H / 2, Math.max(W, H) * 0.7,
+  );
+  vignette.addColorStop(0, 'rgba(0,0,0,0)');
+  vignette.addColorStop(1, 'rgba(0,0,0,0.14)');
+  ctx.fillStyle = vignette;
+  ctx.fillRect(0, 0, W, H);
 }

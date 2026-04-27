@@ -9,18 +9,20 @@ interface StereoPanelProps {
 }
 
 export function StereoPanel({ music, activeSection }: Readonly<StereoPanelProps>) {
+  const sectionName = music.sections[activeSection];
+
   return (
-    <div className={styles.stereoPanel}>
-      <div className={styles.ptitle}>Campo Estéreo · Art of Mixing</div>
-      <div className={styles.secLabelBig}>
-        {music.sections[activeSection].toUpperCase()}
+    <aside className={styles.stereoPanel} aria-label="Campo estéreo">
+      <div className={styles.ptitle} aria-hidden="true">Campo Estéreo · Art of Mixing</div>
+      <div className={styles.secLabelBig} aria-live="polite" aria-atomic="true">
+        {sectionName.toUpperCase()}
       </div>
-      <StereoCanvas groups={music.groups} activeSection={activeSection} />
-      <div className={styles.stereoLr}>
+      <StereoCanvas groups={music.groups} activeSection={activeSection} sectionName={sectionName} />
+      <div className={styles.stereoLr} aria-hidden="true">
         <span>◄ ESQUERDA</span>
         <span>DIREITA ►</span>
       </div>
-      <div className={styles.stereoDept}>
+      <div className={styles.stereoDept} aria-hidden="true">
         <span>▲ próximo</span>
         <span>distante ▼</span>
       </div>
@@ -35,6 +37,6 @@ export function StereoPanel({ music, activeSection }: Readonly<StereoPanelProps>
         <div className={styles.ptitle} style={{ marginBottom: 6 }}>Frequências</div>
         <FreqLegend />
       </div>
-    </div>
+    </aside>
   );
 }

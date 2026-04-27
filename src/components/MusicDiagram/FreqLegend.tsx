@@ -11,13 +11,13 @@ const LABELS: Record<string, string> = {
 
 export function FreqLegend() {
   return (
-    <div className={styles.freqLegend}>
+    <ul className={styles.freqLegend} aria-label="Legenda de frequências" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
       {(Object.entries(FREQ_COLORS) as [string, string][]).map(([band, color]) => (
-        <div key={band} className={styles.freqItem}>
-          <div className={styles.freqPill} style={{ background: color }} />
+        <li key={band} className={styles.freqItem}>
+          <span className={styles.freqPill} aria-hidden="true" style={{ background: color }} />
           {LABELS[band]}
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }

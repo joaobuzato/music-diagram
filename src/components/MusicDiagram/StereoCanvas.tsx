@@ -7,9 +7,10 @@ import styles from './MusicDiagram.module.css';
 interface StereoCanvasProps {
   groups: InstrumentGroup[];
   activeSection: number;
+  sectionName: string;
 }
 
-export function StereoCanvas({ groups, activeSection }: Readonly<StereoCanvasProps>) {
+export function StereoCanvas({ groups, activeSection, sectionName }: Readonly<StereoCanvasProps>) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -17,7 +18,17 @@ export function StereoCanvas({ groups, activeSection }: Readonly<StereoCanvasPro
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    drawStereoField(ctx, canvas.width, canvas.height, groups, activeSection, FREQ_COLORS);
+
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    const logW = rect.width || 276;
+    const logH = rect.height || 210;
+
+    canvas.width = logW * dpr;
+    canvas.height = logH * dpr;
+    ctx.scale(dpr, dpr);
+
+    drawStereoField(ctx, logW, logH, groups, activeSection, FREQ_COLORS);
   }, [groups, activeSection]);
 
   return (
@@ -26,6 +37,9 @@ export function StereoCanvas({ groups, activeSection }: Readonly<StereoCanvasPro
       width={276}
       height={210}
       className={styles.stereoCanvas}
-    />
+      aria-label={`Campo estéreo da seção ${sectionName}: posicionamento panorâmico e proeminência dos instrumentos`}
+    >
+      Campo estéreo da seção {sectionName}
+    </canvas>
   );
 }

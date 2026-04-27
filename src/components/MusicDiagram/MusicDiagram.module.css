@@ -17,26 +17,75 @@
   --jhs-green: #1aaf3c;
   --jhs-yellow: #d4a000;
 
-  background: var(--md-bg);
+  /* Hardware finish — reusable surface treatments */
+  --brushed:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.035) 0 1px,
+      rgba(0, 0, 0, 0.025) 1px 2px
+    );
+  --plateau-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+    0 1px 1px rgba(0, 0, 0, 0.08);
+  --valley-shadow:
+    inset 0 2px 3px rgba(0, 0, 0, 0.18),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.45);
+  --screw:
+    radial-gradient(circle at 35% 30%, #b6b1ab 10%, #7a766f 70%, #4a4844 100%);
+  --etched: 0 1px 0 rgba(255, 255, 255, 0.55);
+  --engraved:
+    -1px -1px 0 rgba(0, 0, 0, 0.18),
+    1px 1px 0 rgba(255, 255, 255, 0.55);
+
+  background:
+    var(--brushed),
+    linear-gradient(180deg, #efece8 0%, var(--md-bg) 100%);
   color: var(--md-text);
   font-family: "DM Mono", monospace;
   height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   box-sizing: border-box;
 }
 
-/* ── HEADER ── */
+/* ── HEADER — brushed faceplate ── */
 .header {
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 8px 18px;
-  border-bottom: 2px solid var(--md-border);
-  background: var(--md-surface);
+  padding: 10px 32px;
+  border-bottom: 2px solid var(--md-border2);
+  background:
+    var(--brushed),
+    linear-gradient(180deg, #ebe8e4 0%, var(--md-surface) 50%, #d8d4cf 100%);
   flex-shrink: 0;
+  position: relative;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.08),
+    0 2px 3px rgba(0, 0, 0, 0.06);
 }
+
+/* Mounting screws at the corners of the faceplate */
+.header::before,
+.header::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  background: var(--screw);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.55);
+}
+.header::before { left: 10px; }
+.header::after { right: 10px; }
 
 .logo {
   font-family: "Bebas Neue", sans-serif;
@@ -44,6 +93,7 @@
   letter-spacing: 0.15em;
   color: var(--jhs-red);
   flex-shrink: 0;
+  text-shadow: var(--etched);
 }
 
 .songMeta {
@@ -64,22 +114,27 @@
   color: var(--md-dim);
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  text-shadow: var(--etched);
 }
 
 .mv {
-  background: var(--md-bg);
-  border: 1px solid var(--md-border);
+  background: linear-gradient(180deg, #d8d5d0 0%, var(--md-bg) 100%);
+  border: 1px solid var(--md-border2);
   color: var(--md-text-bright);
   font-family: "DM Mono", monospace;
   font-size: 10px;
-  padding: 1px 4px;
+  padding: 2px 5px;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
   border-radius: 0;
+  box-shadow: var(--valley-shadow);
 }
 
 .mv:focus {
   border-color: var(--jhs-blue);
+  box-shadow:
+    var(--valley-shadow),
+    0 0 0 1px var(--jhs-blue);
 }
 
 .hint {
@@ -87,49 +142,73 @@
   font-size: 8px;
   color: var(--md-dim);
   letter-spacing: 0.07em;
+  text-shadow: var(--etched);
 }
 
-/* ── SECTIONS BAR ── */
+/* ── SECTIONS BAR — strip of physical buttons ── */
 .sectionsBar {
   display: flex;
   gap: 1px;
-  padding: 0;
-  background: var(--md-border);
+  padding: 4px 6px;
+  background:
+    var(--brushed),
+    linear-gradient(180deg, #d4d0cb 0%, #c4c0ba 100%);
   flex-shrink: 0;
   overflow-x: auto;
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.18),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .stab {
   flex: 1;
   min-width: 64px;
-  padding: 6px 4px;
+  padding: 7px 4px;
   text-align: center;
   font-size: 8px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
-  background: var(--md-surface2);
+  background: linear-gradient(180deg, #ece9e5 0%, #d6d3ce 100%);
   color: var(--stab-color, var(--md-dim));
   transition: all 0.12s;
-  border-bottom: 2px solid transparent;
+  border: 1px solid var(--md-border2);
+  border-bottom-width: 2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   user-select: none;
   font-family: "Bebas Neue", sans-serif;
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: var(--plateau-shadow);
+  text-shadow: var(--etched);
+}
+
+.stab:focus-visible {
+  outline: 2px solid var(--jhs-blue);
+  outline-offset: -2px;
+  z-index: 1;
+  position: relative;
 }
 
 .stab:hover {
-  background: var(--md-surface);
+  background: linear-gradient(180deg, #f2efeb 0%, #ddd9d4 100%);
   color: var(--stab-color, var(--md-text));
-  border-bottom-color: var(--stab-color, var(--md-border2));
 }
 
 .stab.active {
-  background: var(--stab-color, var(--md-amber));
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--stab-color, var(--md-amber)) 80%, #000 20%) 0%,
+      var(--stab-color, var(--md-amber)) 100%);
   color: #fff;
-  border-bottom: 2px solid transparent;
   font-weight: 700;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.35);
+  box-shadow:
+    inset 0 2px 3px rgba(0, 0, 0, 0.32),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.18);
+  transform: translateY(1px);
 }
 
 /* ── MAIN ── */
@@ -181,7 +260,9 @@
   color: var(--md-dim);
   padding: 8px 0 3px 130px;
   border-top: 1px solid var(--md-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
   min-width: max-content;
+  text-shadow: var(--etched);
 }
 
 .instRow {
@@ -199,6 +280,7 @@
   color: var(--md-text-bright);
   white-space: nowrap;
   flex-shrink: 0;
+  text-shadow: var(--etched);
 }
 
 .instDot {
@@ -213,28 +295,39 @@
   gap: 2px;
 }
 
-/* ── ICELL ── */
+/* ── ICELL — recessed level-meter well ── */
 .icell {
   width: 72px;
   height: 30px;
   flex-shrink: 0;
-  border: 1px solid var(--md-border);
+  border: 1px solid var(--md-border2);
   border-radius: 0;
-  background: #c8c5c0;
+  background: linear-gradient(180deg, #b8b5b0 0%, #c8c5c0 60%, #d0cdc7 100%);
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  transition: border-color 0.15s;
+  transition: box-shadow 0.15s, border-color 0.15s;
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
+  box-shadow: var(--valley-shadow);
+}
+
+.icell:focus-visible {
+  outline: 3px solid var(--jhs-blue);
+  outline-offset: -1px;
+  z-index: 1;
 }
 
 .icell:hover {
-  border-color: var(--md-border2);
+  border-color: var(--md-text-bright);
 }
 
 .icell.acol {
-  border-color: var(--md-border2);
-  outline: 2px solid var(--md-text-bright);
-  outline-offset: -1px;
+  border-color: var(--md-text-bright);
+  outline: 1px solid var(--md-text-bright);
+  outline-offset: -2px;
 }
 
 .icell.acol.hasC {
@@ -347,38 +440,97 @@
   transform: translateX(-50%);
 }
 
-/* ── STEREO PANEL ── */
+/* ── STEREO PANEL — hardware faceplate ── */
 .stereoPanel {
   width: 300px;
   flex-shrink: 0;
-  border-left: 1px solid var(--md-border);
-  background: var(--md-surface);
+  border-left: 2px solid var(--md-border2);
+  background:
+    var(--brushed),
+    linear-gradient(180deg, #ebe8e4 0%, var(--md-surface) 38%, #d8d4cf 100%);
   display: flex;
   flex-direction: column;
-  padding: 12px;
+  padding: 18px 14px 14px;
   gap: 8px;
   overflow-y: auto;
+  position: relative;
+  box-shadow:
+    inset 2px 0 3px rgba(0, 0, 0, 0.08),
+    inset -1px 0 0 rgba(255, 255, 255, 0.4);
 }
+
+/* Mounting screws on the stereo faceplate */
+.stereoPanel::before,
+.stereoPanel::after {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--screw);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.55);
+  top: 6px;
+}
+.stereoPanel::before { left: 6px; }
+.stereoPanel::after { right: 6px; }
 
 .ptitle {
   font-size: 7px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--md-dim);
+  text-shadow: var(--etched);
 }
 
+/* Section nameplate — raised plate with mounting screws */
 .secLabelBig {
   font-family: "Bebas Neue", sans-serif;
   font-size: 15px;
   letter-spacing: 0.12em;
   color: var(--md-text-bright);
+  background: linear-gradient(180deg, #dcd8d3 0%, #cfcbc5 100%);
+  border: 1px solid var(--md-border2);
+  padding: 4px 22px;
+  text-align: center;
+  position: relative;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+    0 1px 1px rgba(0, 0, 0, 0.06);
 }
 
+.secLabelBig::before,
+.secLabelBig::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  background: radial-gradient(circle at 35% 30%, #b6b1ab 10%, #7a766f 70%, #4a4844 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.secLabelBig::before { left: 6px; }
+.secLabelBig::after { right: 6px; }
+
+/* LCD-style recessed display */
 .stereoCanvas {
   width: 100%;
   display: block;
   border-radius: 0;
-  border: 1px solid var(--md-border);
+  border: 2px solid #3a3834;
+  background: var(--md-bg);
+  box-shadow:
+    0 0 0 1px var(--md-border2),
+    0 2px 3px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(0, 0, 0, 0.4);
 }
 
 .stereoLr {
@@ -387,6 +539,7 @@
   font-size: 7px;
   color: var(--md-dim);
   letter-spacing: 0.1em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
 .stereoDept {
@@ -397,14 +550,18 @@
   letter-spacing: 0.07em;
   flex-direction: column;
   gap: 2px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
+/* Recessed info plate */
 .tipBlock {
-  border-top: 1px solid var(--md-border);
-  padding-top: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+  padding: 8px 0 6px;
   font-size: 8px;
   color: var(--md-dim);
   line-height: 1.8;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
 }
 
 .tipBlock strong {
@@ -428,9 +585,13 @@
 
 .freqPill {
   width: 10px;
-  height: 3px;
-  border-radius: 0;
+  height: 5px;
+  border-radius: 1px;
   flex-shrink: 0;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    0 0 2px rgba(0, 0, 0, 0.2);
 }
 
 /* ── SCROLLBAR ── */
@@ -444,4 +605,133 @@
 .musicDiagram ::-webkit-scrollbar-thumb {
   background: var(--md-border2);
   border-radius: 0;
+}
+
+/* ── RESPONSIVE: TABLET ≤ 900px ── */
+@media (max-width: 900px) {
+  .stereoPanel {
+    width: 220px;
+  }
+
+  .hint {
+    display: none;
+  }
+}
+
+/* ── RESPONSIVE: MOBILE ≤ 640px ── */
+@media (max-width: 640px) {
+  .musicDiagram {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .header {
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    padding: 8px 12px;
+  }
+
+  .hint {
+    display: none;
+  }
+
+  .songMeta {
+    gap: 6px 10px;
+  }
+
+  .mf {
+    font-size: 10px;
+  }
+
+  .ml {
+    font-size: 10px;
+  }
+
+  .mv {
+    font-size: 11px;
+  }
+
+  .sectionsBar {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .stab {
+    min-width: 72px;
+    padding: 0 6px;
+    min-height: 44px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .main {
+    flex-direction: column;
+    overflow: visible;
+    flex: none;
+  }
+
+  .timelinePanel {
+    flex: none;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding: 10px 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .grpLabel {
+    font-size: 9px;
+  }
+
+  .thCell {
+    font-size: 8px;
+  }
+
+  .instName {
+    font-size: 10px;
+  }
+
+  .icell {
+    height: 44px;
+  }
+
+  .dynLabel {
+    font-size: 9px;
+    bottom: 3px;
+    right: 4px;
+  }
+
+  .stereoPanel {
+    width: 100%;
+    border-left: none;
+    border-top: 2px solid var(--md-border);
+    flex-shrink: 0;
+  }
+
+  .ptitle {
+    font-size: 9px;
+  }
+
+  .secLabelBig {
+    font-size: 18px;
+  }
+
+  .tipBlock {
+    font-size: 10px;
+  }
+
+  .freqItem {
+    font-size: 10px;
+  }
+
+  .stereoLr {
+    font-size: 9px;
+  }
+
+  .stereoDept {
+    font-size: 9px;
+  }
 }
