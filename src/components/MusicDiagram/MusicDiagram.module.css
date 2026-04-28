@@ -18,29 +18,29 @@
   --jhs-yellow: #d4a000;
 
   /* Hardware finish — reusable surface treatments */
-  --brushed:
-    repeating-linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.035) 0 1px,
-      rgba(0, 0, 0, 0.025) 1px 2px
-    );
+  --brushed: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.035) 0 1px,
+    rgba(0, 0, 0, 0.025) 1px 2px
+  );
   --plateau-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.65),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65), inset 0 -1px 0 rgba(0, 0, 0, 0.12),
     0 1px 1px rgba(0, 0, 0, 0.08);
   --valley-shadow:
     inset 0 2px 3px rgba(0, 0, 0, 0.18),
     inset 0 -1px 0 rgba(255, 255, 255, 0.45);
-  --screw:
-    radial-gradient(circle at 35% 30%, #b6b1ab 10%, #7a766f 70%, #4a4844 100%);
+  --screw: radial-gradient(
+    circle at 35% 30%,
+    #b6b1ab 10%,
+    #7a766f 70%,
+    #4a4844 100%
+  );
   --etched: 0 1px 0 rgba(255, 255, 255, 0.55);
   --engraved:
-    -1px -1px 0 rgba(0, 0, 0, 0.18),
-    1px 1px 0 rgba(255, 255, 255, 0.55);
+    -1px -1px 0 rgba(0, 0, 0, 0.18), 1px 1px 0 rgba(255, 255, 255, 0.55);
 
   background:
-    var(--brushed),
-    linear-gradient(180deg, #efece8 0%, var(--md-bg) 100%);
+    var(--brushed), linear-gradient(180deg, #efece8 0%, var(--md-bg) 100%);
   color: var(--md-text);
   font-family: "DM Mono", monospace;
   height: 100vh;
@@ -84,8 +84,12 @@
     inset 0 0 0 1px rgba(0, 0, 0, 0.4),
     0 1px 0 rgba(255, 255, 255, 0.55);
 }
-.header::before { left: 10px; }
-.header::after { right: 10px; }
+.header::before {
+  left: 10px;
+}
+.header::after {
+  right: 10px;
+}
 
 .logo {
   font-family: "Bebas Neue", sans-serif;
@@ -125,7 +129,9 @@
   font-size: 10px;
   padding: 2px 5px;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
   border-radius: 0;
   box-shadow: var(--valley-shadow);
 }
@@ -150,9 +156,7 @@
   display: flex;
   gap: 1px;
   padding: 4px 6px;
-  background:
-    var(--brushed),
-    linear-gradient(180deg, #d4d0cb 0%, #c4c0ba 100%);
+  background: var(--brushed), linear-gradient(180deg, #d4d0cb 0%, #c4c0ba 100%);
   flex-shrink: 0;
   overflow-x: auto;
   box-shadow:
@@ -198,10 +202,11 @@
 }
 
 .stab.active {
-  background:
-    linear-gradient(180deg,
-      color-mix(in srgb, var(--stab-color, var(--md-amber)) 80%, #000 20%) 0%,
-      var(--stab-color, var(--md-amber)) 100%);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--stab-color, var(--md-amber)) 80%, #000 20%) 0%,
+    var(--stab-color, var(--md-amber)) 100%
+  );
   color: #fff;
   font-weight: 700;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.35);
@@ -218,7 +223,7 @@
   overflow: hidden;
 }
 
-/* ── TIMELINE ── */
+/* ── TIMELINE — recessed JHS track area ── */
 .timelinePanel {
   flex: 1;
   overflow-y: auto;
@@ -227,78 +232,144 @@
   display: flex;
   flex-direction: column;
   gap: 0;
+  background:
+    var(--brushed),
+    linear-gradient(180deg, #d4d0cb 0%, #c4c0ba 100%);
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.18),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.4);
 }
 
+/* ── TIMELINE RULER — measure markers ── */
 .thRow {
   display: flex;
-  gap: 2px;
+  gap: 3px;
   margin-bottom: 6px;
-  padding-left: 130px;
+  padding: 4px 0 4px 130px;
   min-width: max-content;
+  background: linear-gradient(180deg, #ebe8e4 0%, var(--md-surface) 50%, #d8d4cf 100%);
+  border-bottom: 1px solid var(--md-border2);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 1px 0 rgba(0, 0, 0, 0.06);
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 .thCell {
-  width: 72px;
+  width: 140px;
   flex-shrink: 0;
-  text-align: center;
-  font-size: 7px;
-  letter-spacing: 0.08em;
+  text-align: left;
+  padding: 3px 8px;
+  font-size: 9px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--md-dim);
-  transition: color 0.15s;
+  color: var(--md-text);
+  font-family: "Bebas Neue", sans-serif;
+  transition: color 0.15s, background 0.15s;
+  border-left: 1px solid rgba(255, 255, 255, 0.55);
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+  position: relative;
+  text-shadow: var(--etched);
+}
+
+.thCell::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: var(--md-border2);
 }
 
 .thCell.active {
   color: var(--md-text-bright);
   font-weight: 700;
+  background: linear-gradient(180deg, rgba(212, 30, 34, 0.16) 0%, rgba(212, 30, 34, 0.04) 100%);
+}
+
+.thCell.active::before {
+  background: var(--jhs-red);
+  box-shadow: 0 0 4px var(--jhs-red);
 }
 
 .grpLabel {
-  font-size: 7px;
-  letter-spacing: 0.18em;
+  font-size: 8px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--md-dim);
-  padding: 8px 0 3px 130px;
+  color: var(--md-text);
+  padding: 10px 0 5px 130px;
   border-top: 1px solid var(--md-border);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
   min-width: max-content;
   text-shadow: var(--etched);
+  font-family: "Bebas Neue", sans-serif;
 }
 
 .instRow {
   display: flex;
   align-items: center;
   gap: 4px;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
   min-width: max-content;
+  position: relative;
+}
+
+/* faint vertical separators at every cell boundary, matching JHS palette */
+.instRow::before {
+  content: "";
+  position: absolute;
+  left: 130px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 143px,
+      rgba(0, 0, 0, 0.08) 143px,
+      rgba(0, 0, 0, 0.08) 144px
+    );
+  pointer-events: none;
+  z-index: 0;
 }
 
 .instName {
   width: 118px;
   text-align: right;
-  font-size: 9px;
+  font-size: 10px;
   color: var(--md-text-bright);
   white-space: nowrap;
   flex-shrink: 0;
   text-shadow: var(--etched);
+  letter-spacing: 0.04em;
+  z-index: 1;
 }
 
 .instDot {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   flex-shrink: 0;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  z-index: 1;
 }
 
 .cellsTrack {
   display: flex;
-  gap: 2px;
+  gap: 3px;
+  z-index: 1;
 }
 
-/* ── ICELL — recessed level-meter well ── */
+/* ── ICELL — recessed level-meter well, JHS faceplate finish ── */
 .icell {
-  width: 72px;
-  height: 30px;
+  width: 140px;
+  height: 64px;
   flex-shrink: 0;
   border: 1px solid var(--md-border2);
   border-radius: 0;
@@ -328,12 +399,14 @@
   border-color: var(--md-text-bright);
   outline: 1px solid var(--md-text-bright);
   outline-offset: -2px;
+  z-index: 1;
 }
 
 .icell.acol.hasC {
   outline-color: var(--md-text-bright);
 }
 
+/* dynBar = vertical level meter filling the well from the bottom */
 .dynBar {
   position: absolute;
   bottom: 0;
@@ -341,25 +414,54 @@
   right: 0;
   border-radius: 0;
   transition: height 0.3s ease;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.18);
 }
 
-.panDot {
+/* faux-waveform stripes for the DAW-clip texture */
+.dynBar::after {
+  content: "";
   position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 0;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  transition: left 0.3s ease;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.18) 0 1px,
+      transparent 1px 5px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.1) 0 1px,
+      transparent 1px 9px
+    );
+  pointer-events: none;
 }
 
+/* pan vline = black line rising from the bottom up to the dyn level */
 .panVline {
   position: absolute;
-  top: 0;
   bottom: 0;
-  width: 1px;
-  opacity: 0 65;
-  transition: left 0.3s ease;
+  width: 2px;
+  background: #000;
+  transform: translateX(-50%);
+  transition: left 0.3s ease, height 0.3s ease;
+  z-index: 2;
+}
+
+/* pan dot = black dot riding the top of the dyn level at the pan x position */
+.panDot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #000;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.55),
+    0 1px 2px rgba(0, 0, 0, 0.4);
+  transform: translate(-50%, 50%);
+  transition: left 0.3s ease, bottom 0.3s ease;
+  z-index: 3;
 }
 
 .muteDash {
@@ -368,64 +470,46 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 7px;
-  color: var(--md-dim);
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: var(--md-text);
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.05) 0 6px,
+      transparent 6px 12px
+    );
+  text-shadow: var(--etched);
 }
 
 .dynLabel {
   position: absolute;
-  bottom: 2px;
-  right: 3px;
-  font-size: 8px;
-  color: rgba(0, 0, 0, 0.7);
-}
-
-/* ── VOCAL CURVE ── */
-.vocalCurveRow {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-bottom: 2px;
-  min-width: max-content;
-}
-
-.vocalCurveLabel {
-  width: 118px;
-  text-align: right;
-  font-size: 9px;
+  top: 4px;
+  right: 6px;
+  font-size: 11px;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.06em;
   color: var(--md-text-bright);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  justify-content: flex-end;
-}
-
-.vocalSubLabel {
-  padding-left: 136px;
-  font-size: 7px;
-  color: var(--md-dim);
-  letter-spacing: 0.08em;
-  margin-bottom: 2px;
-  margin-top: -1px;
-  min-width: max-content;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+  z-index: 3;
 }
 
 /* ── PAN RULER ── */
 .panRulerRow {
   display: flex;
-  gap: 2px;
+  gap: 3px;
   padding-left: 130px;
-  margin-top: 10px;
+  margin-top: 12px;
   border-top: 1px solid var(--md-border);
-  padding-top: 8px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  padding-top: 10px;
   min-width: max-content;
 }
 
 .panRulerCell {
-  width: 72px;
+  width: 140px;
   flex-shrink: 0;
-  height: 10px;
+  height: 12px;
   position: relative;
   display: flex;
   align-items: center;
@@ -433,11 +517,12 @@
 
 .panTick {
   position: absolute;
-  font-size: 6px;
+  font-size: 7px;
   color: var(--md-dim);
   letter-spacing: 0.06em;
   top: 0;
   transform: translateX(-50%);
+  text-shadow: var(--etched);
 }
 
 /* ── STEREO PANEL — hardware faceplate ── */
@@ -473,8 +558,12 @@
     0 1px 0 rgba(255, 255, 255, 0.55);
   top: 6px;
 }
-.stereoPanel::before { left: 6px; }
-.stereoPanel::after { right: 6px; }
+.stereoPanel::before {
+  left: 6px;
+}
+.stereoPanel::after {
+  right: 6px;
+}
 
 .ptitle {
   font-size: 7px;
@@ -511,14 +600,23 @@
   height: 6px;
   border-radius: 50%;
   transform: translateY(-50%);
-  background: radial-gradient(circle at 35% 30%, #b6b1ab 10%, #7a766f 70%, #4a4844 100%);
+  background: radial-gradient(
+    circle at 35% 30%,
+    #b6b1ab 10%,
+    #7a766f 70%,
+    #4a4844 100%
+  );
   box-shadow:
     inset 0 0 0 1px rgba(0, 0, 0, 0.35),
     0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-.secLabelBig::before { left: 6px; }
-.secLabelBig::after { right: 6px; }
+.secLabelBig::before {
+  left: 6px;
+}
+.secLabelBig::after {
+  right: 6px;
+}
 
 /* LCD-style recessed display */
 .stereoCanvas {
@@ -695,13 +793,13 @@
   }
 
   .icell {
-    height: 44px;
+    height: 72px;
   }
 
   .dynLabel {
-    font-size: 9px;
-    bottom: 3px;
-    right: 4px;
+    font-size: 12px;
+    top: 5px;
+    right: 7px;
   }
 
   .stereoPanel {

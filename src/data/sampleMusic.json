@@ -14,196 +14,185 @@
     "Ponte",
     "Final"
   ],
-  "groups": [
+  "instruments": [
     {
-      "label": "Percussão",
-      "instruments": [
-        {
-          "id": "kick",
-          "name": "Bumbo",
-          "color": "#ff6035",
-          "freq": "sub",
-          "data": [
-            { "pan": 0, "dyn": 0, "prom": 0 },
-            { "pan": 0, "dyn": 0.75, "prom": 0.72 },
-            { "pan": 0, "dyn": 0.85, "prom": 0.8 },
-            { "pan": 0, "dyn": 1.0, "prom": 0.9 },
-            { "pan": 0, "dyn": 0.72, "prom": 0.68 },
-            { "pan": 0, "dyn": 0.85, "prom": 0.8 },
-            { "pan": 0, "dyn": 1.0, "prom": 0.95 },
-            { "pan": 0, "dyn": 0.9, "prom": 0.85 },
-            { "pan": 0, "dyn": 0.45, "prom": 0.4 }
-          ]
-        },
-        {
-          "id": "snare",
-          "name": "Caixa",
-          "color": "#ffa040",
-          "freq": "low-mid",
-          "data": [
-            { "pan": 0.05, "dyn": 0, "prom": 0 },
-            { "pan": 0.05, "dyn": 0.7, "prom": 0.65 },
-            { "pan": 0.05, "dyn": 0.8, "prom": 0.75 },
-            { "pan": 0.05, "dyn": 0.95, "prom": 0.88 },
-            { "pan": 0.05, "dyn": 0.65, "prom": 0.6 },
-            { "pan": 0.05, "dyn": 0.8, "prom": 0.75 },
-            { "pan": 0.05, "dyn": 0.95, "prom": 0.9 },
-            { "pan": 0.05, "dyn": 0.88, "prom": 0.82 },
-            { "pan": 0.05, "dyn": 0.4, "prom": 0.38 }
-          ]
-        },
-        {
-          "id": "hihat",
-          "name": "Hi-Hat",
-          "color": "#ffe082",
-          "freq": "high",
-          "data": [
-            { "pan": 0.35, "dyn": 0, "prom": 0 },
-            { "pan": 0.35, "dyn": 0.55, "prom": 0.38 },
-            { "pan": 0.35, "dyn": 0.65, "prom": 0.48 },
-            { "pan": 0.35, "dyn": 0.7, "prom": 0.58 },
-            { "pan": 0.35, "dyn": 0.5, "prom": 0.35 },
-            { "pan": 0.35, "dyn": 0.65, "prom": 0.48 },
-            { "pan": 0.35, "dyn": 0.75, "prom": 0.62 },
-            { "pan": 0.35, "dyn": 0.7, "prom": 0.58 },
-            { "pan": 0.35, "dyn": 0.35, "prom": 0.28 }
-          ]
-        },
-        {
-          "id": "crash",
-          "name": "Prato / Crash",
-          "color": "#fff176",
-          "freq": "high",
-          "data": [
-            { "pan": -0.4, "dyn": 0, "prom": 0 },
-            { "pan": -0.4, "dyn": 0.3, "prom": 0.2 },
-            { "pan": -0.4, "dyn": 0.4, "prom": 0.3 },
-            { "pan": -0.4, "dyn": 0.75, "prom": 0.62 },
-            { "pan": -0.4, "dyn": 0.25, "prom": 0.18 },
-            { "pan": -0.4, "dyn": 0.4, "prom": 0.3 },
-            { "pan": -0.4, "dyn": 0.8, "prom": 0.68 },
-            { "pan": -0.4, "dyn": 0.6, "prom": 0.5 },
-            { "pan": -0.4, "dyn": 0.3, "prom": 0.22 }
-          ]
-        }
+      "id": "kick",
+      "name": "Bumbo",
+      "color": "#ff6035",
+      "freq": "sub",
+      "group": "Percussão",
+      "data": [
+        { "pan": 0, "dyn": 0, "prom": 0 },
+        { "pan": 0, "dyn": 0.75, "prom": 0.72 },
+        { "pan": 0, "dyn": 0.85, "prom": 0.8 },
+        { "pan": 0, "dyn": 1.0, "prom": 0.9 },
+        { "pan": 0, "dyn": 0.72, "prom": 0.68 },
+        { "pan": 0, "dyn": 0.85, "prom": 0.8 },
+        { "pan": 0, "dyn": 1.0, "prom": 0.95 },
+        { "pan": 0, "dyn": 0.9, "prom": 0.85 },
+        { "pan": 0, "dyn": 0.45, "prom": 0.4 }
       ]
     },
     {
-      "label": "Graves",
-      "instruments": [
-        {
-          "id": "bass",
-          "name": "Baixo",
-          "color": "#ea4c89",
-          "freq": "sub",
-          "data": [
-            { "pan": 0, "dyn": 0.5, "prom": 0.45 },
-            { "pan": 0, "dyn": 0.8, "prom": 0.78 },
-            { "pan": 0, "dyn": 0.85, "prom": 0.83 },
-            { "pan": 0, "dyn": 0.95, "prom": 0.92 },
-            { "pan": 0, "dyn": 0.75, "prom": 0.72 },
-            { "pan": 0, "dyn": 0.85, "prom": 0.83 },
-            { "pan": 0, "dyn": 1.0, "prom": 0.98 },
-            { "pan": 0, "dyn": 0.9, "prom": 0.88 },
-            { "pan": 0, "dyn": 0.55, "prom": 0.5 }
-          ]
-        }
+      "id": "snare",
+      "name": "Caixa",
+      "color": "#ffa040",
+      "freq": "low-mid",
+      "group": "Percussão",
+      "data": [
+        { "pan": 0.05, "dyn": 0, "prom": 0 },
+        { "pan": 0.05, "dyn": 0.7, "prom": 0.65 },
+        { "pan": 0.05, "dyn": 0.8, "prom": 0.75 },
+        { "pan": 0.05, "dyn": 0.95, "prom": 0.88 },
+        { "pan": 0.05, "dyn": 0.65, "prom": 0.6 },
+        { "pan": 0.05, "dyn": 0.8, "prom": 0.75 },
+        { "pan": 0.05, "dyn": 0.95, "prom": 0.9 },
+        { "pan": 0.05, "dyn": 0.88, "prom": 0.82 },
+        { "pan": 0.05, "dyn": 0.4, "prom": 0.38 }
       ]
     },
     {
-      "label": "Harmônicos",
-      "instruments": [
-        {
-          "id": "gtr_r",
-          "name": "Guitarra Ritmo",
-          "color": "#66bb6a",
-          "freq": "high-mid",
-          "data": [
-            { "pan": -0.65, "dyn": 0, "prom": 0 },
-            { "pan": -0.65, "dyn": 0.6, "prom": 0.5 },
-            { "pan": -0.65, "dyn": 0.7, "prom": 0.6 },
-            { "pan": -0.65, "dyn": 0.88, "prom": 0.78 },
-            { "pan": -0.65, "dyn": 0.55, "prom": 0.45 },
-            { "pan": -0.65, "dyn": 0.7, "prom": 0.6 },
-            { "pan": -0.65, "dyn": 0.92, "prom": 0.82 },
-            { "pan": -0.65, "dyn": 0.82, "prom": 0.72 },
-            { "pan": -0.65, "dyn": 0.28, "prom": 0.22 }
-          ]
-        },
-        {
-          "id": "gtr_l",
-          "name": "Guitarra Solo",
-          "color": "#26c6da",
-          "freq": "high-mid",
-          "data": [
-            { "pan": 0.6, "dyn": 0, "prom": 0 },
-            { "pan": 0.6, "dyn": 0, "prom": 0 },
-            { "pan": 0.6, "dyn": 0.5, "prom": 0.4 },
-            { "pan": 0.6, "dyn": 0.8, "prom": 0.7 },
-            { "pan": 0.6, "dyn": 0, "prom": 0 },
-            { "pan": 0.6, "dyn": 0.5, "prom": 0.4 },
-            { "pan": 0.6, "dyn": 0.88, "prom": 0.78 },
-            { "pan": 0.25, "dyn": 0.95, "prom": 0.9 },
-            { "pan": 0.6, "dyn": 0.65, "prom": 0.55 }
-          ]
-        },
-        {
-          "id": "keys",
-          "name": "Teclado / Pad",
-          "color": "#ab47bc",
-          "freq": "high-mid",
-          "data": [
-            { "pan": 0.0, "dyn": 0.7, "prom": 0.58 },
-            { "pan": 0.0, "dyn": 0.28, "prom": 0.22 },
-            { "pan": 0.0, "dyn": 0.48, "prom": 0.38 },
-            { "pan": 0.0, "dyn": 0.72, "prom": 0.62 },
-            { "pan": 0.0, "dyn": 0.28, "prom": 0.22 },
-            { "pan": 0.0, "dyn": 0.48, "prom": 0.38 },
-            { "pan": 0.0, "dyn": 0.78, "prom": 0.68 },
-            { "pan": 0.2, "dyn": 0.88, "prom": 0.8 },
-            { "pan": 0.0, "dyn": 0.82, "prom": 0.75 }
-          ]
-        }
+      "id": "hihat",
+      "name": "Hi-Hat",
+      "color": "#ffe082",
+      "freq": "high",
+      "group": "Percussão",
+      "data": [
+        { "pan": 0.35, "dyn": 0, "prom": 0 },
+        { "pan": 0.35, "dyn": 0.55, "prom": 0.38 },
+        { "pan": 0.35, "dyn": 0.65, "prom": 0.48 },
+        { "pan": 0.35, "dyn": 0.7, "prom": 0.58 },
+        { "pan": 0.35, "dyn": 0.5, "prom": 0.35 },
+        { "pan": 0.35, "dyn": 0.65, "prom": 0.48 },
+        { "pan": 0.35, "dyn": 0.75, "prom": 0.62 },
+        { "pan": 0.35, "dyn": 0.7, "prom": 0.58 },
+        { "pan": 0.35, "dyn": 0.35, "prom": 0.28 }
       ]
     },
     {
-      "label": "Vocais",
-      "instruments": [
-        {
-          "id": "vocal",
-          "name": "Vocal Principal",
-          "color": "#00e676",
-          "freq": "vocal",
-          "isVocal": true,
-          "data": [
-            { "pan": 0, "dyn": 0, "intensity": 0 },
-            { "pan": 0, "dyn": 0, "intensity": 0.12 },
-            { "pan": 0, "dyn": 0.82, "intensity": 0.73 },
-            { "pan": 0, "dyn": 0.92, "intensity": 0.93 },
-            { "pan": 0, "dyn": 0.67, "intensity": 0.62 },
-            { "pan": 0, "dyn": 0.82, "intensity": 0.78 },
-            { "pan": 0, "dyn": 0.95, "intensity": 0.98 },
-            { "pan": 0, "dyn": 0.88, "intensity": 0.88 },
-            { "pan": 0, "dyn": 0.38, "intensity": 0.32 }
-          ]
-        },
-        {
-          "id": "bv",
-          "name": "Back Vocal",
-          "color": "#80cbc4",
-          "freq": "high",
-          "data": [
-            { "pan": 0.0, "dyn": 0, "prom": 0 },
-            { "pan": 0.0, "dyn": 0, "prom": 0 },
-            { "pan": 0.45, "dyn": 0.38, "prom": 0.3 },
-            { "pan": 0.45, "dyn": 0.62, "prom": 0.52 },
-            { "pan": 0.0, "dyn": 0, "prom": 0 },
-            { "pan": 0.45, "dyn": 0.38, "prom": 0.3 },
-            { "pan": 0.45, "dyn": 0.68, "prom": 0.58 },
-            { "pan": 0.45, "dyn": 0.75, "prom": 0.65 },
-            { "pan": 0.0, "dyn": 0.28, "prom": 0.22 }
-          ]
-        }
+      "id": "crash",
+      "name": "Prato / Crash",
+      "color": "#fff176",
+      "freq": "high",
+      "group": "Percussão",
+      "data": [
+        { "pan": -0.4, "dyn": 0, "prom": 0 },
+        { "pan": -0.4, "dyn": 0.3, "prom": 0.2 },
+        { "pan": -0.4, "dyn": 0.4, "prom": 0.3 },
+        { "pan": -0.4, "dyn": 0.75, "prom": 0.62 },
+        { "pan": -0.4, "dyn": 0.25, "prom": 0.18 },
+        { "pan": -0.4, "dyn": 0.4, "prom": 0.3 },
+        { "pan": -0.4, "dyn": 0.8, "prom": 0.68 },
+        { "pan": -0.4, "dyn": 0.6, "prom": 0.5 },
+        { "pan": -0.4, "dyn": 0.3, "prom": 0.22 }
+      ]
+    },
+    {
+      "id": "bass",
+      "name": "Baixo",
+      "color": "#ea4c89",
+      "freq": "sub",
+      "group": "Graves",
+      "data": [
+        { "pan": 0, "dyn": 0.5, "prom": 0.45 },
+        { "pan": 0, "dyn": 0.8, "prom": 0.78 },
+        { "pan": 0, "dyn": 0.85, "prom": 0.83 },
+        { "pan": 0, "dyn": 0.95, "prom": 0.92 },
+        { "pan": 0, "dyn": 0.75, "prom": 0.72 },
+        { "pan": 0, "dyn": 0.85, "prom": 0.83 },
+        { "pan": 0, "dyn": 1.0, "prom": 0.98 },
+        { "pan": 0, "dyn": 0.9, "prom": 0.88 },
+        { "pan": 0, "dyn": 0.55, "prom": 0.5 }
+      ]
+    },
+    {
+      "id": "gtr_r",
+      "name": "Guitarra Ritmo",
+      "color": "#66bb6a",
+      "freq": "high-mid",
+      "group": "Harmônicos",
+      "data": [
+        { "pan": -0.65, "dyn": 0, "prom": 0 },
+        { "pan": -0.65, "dyn": 0.6, "prom": 0.5 },
+        { "pan": -0.65, "dyn": 0.7, "prom": 0.6 },
+        { "pan": -0.65, "dyn": 0.88, "prom": 0.78 },
+        { "pan": -0.65, "dyn": 0.55, "prom": 0.45 },
+        { "pan": -0.65, "dyn": 0.7, "prom": 0.6 },
+        { "pan": -0.65, "dyn": 0.92, "prom": 0.82 },
+        { "pan": -0.65, "dyn": 0.82, "prom": 0.72 },
+        { "pan": -0.65, "dyn": 0.28, "prom": 0.22 }
+      ]
+    },
+    {
+      "id": "gtr_l",
+      "name": "Guitarra Solo",
+      "color": "#26c6da",
+      "freq": "high-mid",
+      "group": "Harmônicos",
+      "data": [
+        { "pan": 0.6, "dyn": 0, "prom": 0 },
+        { "pan": 0.6, "dyn": 0, "prom": 0 },
+        { "pan": 0.6, "dyn": 0.5, "prom": 0.4 },
+        { "pan": 0.6, "dyn": 0.8, "prom": 0.7 },
+        { "pan": 0.6, "dyn": 0, "prom": 0 },
+        { "pan": 0.6, "dyn": 0.5, "prom": 0.4 },
+        { "pan": 0.6, "dyn": 0.88, "prom": 0.78 },
+        { "pan": 0.25, "dyn": 0.95, "prom": 0.9 },
+        { "pan": 0.6, "dyn": 0.65, "prom": 0.55 }
+      ]
+    },
+    {
+      "id": "keys",
+      "name": "Teclado / Pad",
+      "color": "#ab47bc",
+      "freq": "high-mid",
+      "group": "Harmônicos",
+      "data": [
+        { "pan": 0.0, "dyn": 0.7, "prom": 0.58 },
+        { "pan": 0.0, "dyn": 0.28, "prom": 0.22 },
+        { "pan": 0.0, "dyn": 0.48, "prom": 0.38 },
+        { "pan": 0.0, "dyn": 0.72, "prom": 0.62 },
+        { "pan": 0.0, "dyn": 0.28, "prom": 0.22 },
+        { "pan": 0.0, "dyn": 0.48, "prom": 0.38 },
+        { "pan": 0.0, "dyn": 0.78, "prom": 0.68 },
+        { "pan": 0.2, "dyn": 0.88, "prom": 0.8 },
+        { "pan": 0.0, "dyn": 0.82, "prom": 0.75 }
+      ]
+    },
+    {
+      "id": "vocal",
+      "name": "Vocal Principal",
+      "color": "#00e676",
+      "freq": "vocal",
+      "group": "Vocais",
+      "data": [
+        { "pan": 0, "dyn": 0, "prom": 0 },
+        { "pan": 0, "dyn": 0, "prom": 0.12 },
+        { "pan": 0, "dyn": 0.82, "prom": 0.73 },
+        { "pan": 0, "dyn": 0.92, "prom": 0.93 },
+        { "pan": 0, "dyn": 0.67, "prom": 0.62 },
+        { "pan": 0, "dyn": 0.82, "prom": 0.78 },
+        { "pan": 0, "dyn": 0.95, "prom": 0.98 },
+        { "pan": 0, "dyn": 0.88, "prom": 0.88 },
+        { "pan": 0, "dyn": 0.38, "prom": 0.32 }
+      ]
+    },
+    {
+      "id": "bv",
+      "name": "Back Vocal",
+      "color": "#80cbc4",
+      "freq": "high",
+      "group": "Vocais",
+      "data": [
+        { "pan": 0.0, "dyn": 0, "prom": 0 },
+        { "pan": 0.0, "dyn": 0, "prom": 0 },
+        { "pan": 0.45, "dyn": 0.38, "prom": 0.3 },
+        { "pan": 0.45, "dyn": 0.62, "prom": 0.52 },
+        { "pan": 0.0, "dyn": 0, "prom": 0 },
+        { "pan": 0.45, "dyn": 0.38, "prom": 0.3 },
+        { "pan": 0.45, "dyn": 0.68, "prom": 0.58 },
+        { "pan": 0.45, "dyn": 0.75, "prom": 0.65 },
+        { "pan": 0.0, "dyn": 0.28, "prom": 0.22 }
       ]
     }
   ]

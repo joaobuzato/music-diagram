@@ -23,8 +23,8 @@ export function PanRuler({ count }: Readonly<PanRulerProps>) {
             {[0, 50, 100].map(x => (
               <line
                 key={x}
-                x1={x * 0.72}
-                x2={x * 0.72}
+                x1={(x / 100) * CELL_WIDTH}
+                x2={(x / 100) * CELL_WIDTH}
                 y1={5}
                 y2={10}
                 stroke="#252540"

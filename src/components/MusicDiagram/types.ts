@@ -1,40 +1,18 @@
 export type FreqBand = 'sub' | 'low-mid' | 'high-mid' | 'high' | 'vocal';
 
-export interface RegularSectionData {
+export interface SectionData {
   pan: number;
   dyn: number;
   prom: number;
 }
 
-export interface VocalSectionData {
-  pan: number;
-  dyn: number;
-  intensity: number;
-}
-
-export interface RegularInstrument {
+export interface Instrument {
   id: string;
   name: string;
   color: string;
   freq: FreqBand;
-  isVocal?: false;
-  data: RegularSectionData[];
-}
-
-export interface VocalInstrument {
-  id: string;
-  name: string;
-  color: string;
-  freq: FreqBand;
-  isVocal: true;
-  data: VocalSectionData[];
-}
-
-export type Instrument = RegularInstrument | VocalInstrument;
-
-export interface InstrumentGroup {
-  label: string;
-  instruments: Instrument[];
+  group: string;
+  data: SectionData[];
 }
 
 export interface Music {
@@ -43,5 +21,5 @@ export interface Music {
   bpm: number;
   key: string;
   sections: string[];
-  groups: InstrumentGroup[];
+  instruments: Instrument[];
 }

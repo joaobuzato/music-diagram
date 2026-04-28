@@ -17,7 +17,7 @@ export function StereoPanel({ music, activeSection }: Readonly<StereoPanelProps>
       <div className={styles.secLabelBig} aria-live="polite" aria-atomic="true">
         {sectionName.toUpperCase()}
       </div>
-      <StereoCanvas groups={music.groups} activeSection={activeSection} sectionName={sectionName} />
+      <StereoCanvas instruments={music.instruments} activeSection={activeSection} sectionName={sectionName} />
       <div className={styles.stereoLr} aria-hidden="true">
         <span>◄ ESQUERDA</span>
         <span>DIREITA ►</span>

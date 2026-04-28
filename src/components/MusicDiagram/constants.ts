@@ -8,8 +8,7 @@ export const FREQ_COLORS: Record<FreqBand, string> = {
   'vocal':    '#1AAF3C',
 };
 
-export const CELL_WIDTH        = 72;
-export const CELL_HEIGHT       = 30;
-export const CELL_GAP          = 2;
-export const VOCAL_CURVE_H     = 40;
+export const CELL_WIDTH        = 140;
+export const CELL_HEIGHT       = 64;
+export const CELL_GAP          = 3;
 export const INST_LABEL_WIDTH  = 118;

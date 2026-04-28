@@ -1,9 +1,9 @@
-import type { RegularInstrument } from './types';
+import type { Instrument } from './types';
 import { SectionCell } from './SectionCell';
 import styles from './MusicDiagram.module.css';
 
 interface InstrumentRowProps {
-  instrument: RegularInstrument;
+  instrument: Instrument;
   sections: string[];
   activeSection: number;
   onSectionChange: (index: number) => void;

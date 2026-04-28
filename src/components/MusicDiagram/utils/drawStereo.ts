@@ -1,4 +1,4 @@
-import type { InstrumentGroup } from '../types';
+import type { Instrument } from '../types';
 
 function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * t;
@@ -8,7 +8,7 @@ export function drawStereoField(
   ctx: CanvasRenderingContext2D,
   W: number,
   H: number,
-  groups: InstrumentGroup[],
+  instruments: Instrument[],
   si: number,
   freqColors: Record<string, string>,
 ): void {
@@ -96,15 +96,11 @@ export function drawStereoField(
   ctx.textAlign = 'center';
   ctx.fillText('FUNDO DA MIX', W / 2, yFar - 2);
 
-  const allInsts = groups.flatMap(g => g.instruments);
-
-  allInsts.forEach(inst => {
+  instruments.forEach(inst => {
     const d = inst.data[si];
     if (!d) return;
     const dyn = d.dyn ?? 0;
-    const prom = inst.isVocal
-      ? (('intensity' in d ? d.intensity : 0) ?? 0)
-      : (('prom' in d ? d.prom : 0) ?? 0);
+    const prom = d.prom ?? 0;
     if (dyn === 0 && prom === 0) return;
 
     const depth = prom;

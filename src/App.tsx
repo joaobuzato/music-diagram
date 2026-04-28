@@ -2,7 +2,7 @@ import { MusicDiagram } from './components/MusicDiagram/MusicDiagram';
 import type { Music } from './components/MusicDiagram/types';
 import sampleMusic from './data/sampleMusic.json';
 
-const STORAGE_KEY = 'music-diagram-data';
+const STORAGE_KEY = 'music-diagram-data-v2';
 
 function loadMusic(): Music {
   const stored = localStorage.getItem(STORAGE_KEY);

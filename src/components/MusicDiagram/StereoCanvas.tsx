@@ -1,16 +1,16 @@
 import { useRef, useEffect } from 'react';
-import type { InstrumentGroup } from './types';
+import type { Instrument } from './types';
 import { FREQ_COLORS } from './constants';
 import { drawStereoField } from './utils/drawStereo';
 import styles from './MusicDiagram.module.css';
 
 interface StereoCanvasProps {
-  groups: InstrumentGroup[];
+  instruments: Instrument[];
   activeSection: number;
   sectionName: string;
 }
 
-export function StereoCanvas({ groups, activeSection, sectionName }: Readonly<StereoCanvasProps>) {
+export function StereoCanvas({ instruments, activeSection, sectionName }: Readonly<StereoCanvasProps>) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -28,8 +28,8 @@ export function StereoCanvas({ groups, activeSection, sectionName }: Readonly<St
     canvas.height = logH * dpr;
     ctx.scale(dpr, dpr);
 
-    drawStereoField(ctx, logW, logH, groups, activeSection, FREQ_COLORS);
-  }, [groups, activeSection]);
+    drawStereoField(ctx, logW, logH, instruments, activeSection, FREQ_COLORS);
+  }, [instruments, activeSection]);
 
   return (
     <canvas
