@@ -1,12 +1,14 @@
-import type { Instrument } from './types';
+import type { Instrument, Section, SectionData } from './types';
 import { SectionCell } from './SectionCell';
+import { tempoWidth } from './utils/tempo';
 import styles from './MusicDiagram.module.css';
 
 interface InstrumentRowProps {
   instrument: Instrument;
-  sections: string[];
+  sections: Section[];
   activeSection: number;
   onSectionChange: (index: number) => void;
+  onUpdateSectionData: (instrumentId: string, sectionIndex: number, next: SectionData) => void;
 }
 
 function panLabel(pan: number): string {
@@ -15,7 +17,7 @@ function panLabel(pan: number): string {
   return 'centro';
 }
 
-export function InstrumentRow({ instrument, sections, activeSection, onSectionChange }: Readonly<InstrumentRowProps>) {
+export function InstrumentRow({ instrument, sections, activeSection, onSectionChange, onUpdateSectionData }: Readonly<InstrumentRowProps>) {
   return (
     <div className={styles.instRow} aria-label={instrument.name}>
       <div className={styles.instName}>{instrument.name}</div>
@@ -25,15 +27,17 @@ export function InstrumentRow({ instrument, sections, activeSection, onSectionCh
         {sections.map((sec, i) => {
           const d = instrument.data[i];
           const label = d.dyn === 0
-            ? `${instrument.name}, ${sec}: silenciado`
-            : `${instrument.name}, ${sec}: dinâmica ${Math.round(d.dyn * 100)}%, pan ${panLabel(d.pan)}`;
+            ? `${instrument.name}, ${sec.name}: silenciado`
+            : `${instrument.name}, ${sec.name}: dinâmica ${Math.round(d.dyn * 100)}%, pan ${panLabel(d.pan)}`;
           return (
             <SectionCell
-              key={sec}
+              key={`${sec.name}-${i}`}
               data={d}
               color={instrument.color}
               isActive={i === activeSection}
+              width={tempoWidth(sec.tempo)}
               onClick={() => onSectionChange(i)}
+              onChange={(next) => onUpdateSectionData(instrument.id, i, next)}
               ariaLabel={label}
             />
           );

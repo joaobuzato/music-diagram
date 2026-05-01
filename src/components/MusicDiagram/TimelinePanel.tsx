@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { Instrument, Music } from './types';
+import type { Instrument, Music, SectionData } from './types';
 import { TimelineHeader } from './TimelineHeader';
 import { GroupSection } from './GroupSection';
 import { PanRuler } from './PanRuler';
@@ -9,6 +9,8 @@ interface TimelinePanelProps {
   music: Music;
   activeSection: number;
   onSectionChange: (index: number) => void;
+  onUpdateSectionData: (instrumentId: string, sectionIndex: number, next: SectionData) => void;
+  onUpdateSectionTempo: (sectionIndex: number, tempo: string) => void;
 }
 
 function groupInstruments(instruments: Instrument[]): Array<[string, Instrument[]]> {
@@ -21,12 +23,16 @@ function groupInstruments(instruments: Instrument[]): Array<[string, Instrument[
   return Array.from(map.entries());
 }
 
-export function TimelinePanel({ music, activeSection, onSectionChange }: Readonly<TimelinePanelProps>) {
+export function TimelinePanel({ music, activeSection, onSectionChange, onUpdateSectionData, onUpdateSectionTempo }: Readonly<TimelinePanelProps>) {
   const groups = useMemo(() => groupInstruments(music.instruments), [music.instruments]);
 
   return (
     <div className={styles.timelinePanel}>
-      <TimelineHeader sections={music.sections} activeSection={activeSection} />
+      <TimelineHeader
+        sections={music.sections}
+        activeSection={activeSection}
+        onUpdateSectionTempo={onUpdateSectionTempo}
+      />
       {groups.map(([label, instruments], i) => (
         <GroupSection
           key={label}
@@ -35,10 +41,11 @@ export function TimelinePanel({ music, activeSection, onSectionChange }: Readonl
           sections={music.sections}
           activeSection={activeSection}
           onSectionChange={onSectionChange}
+          onUpdateSectionData={onUpdateSectionData}
           isFirst={i === 0}
         />
       ))}
-      <PanRuler count={music.sections.length} />
+      <PanRuler sections={music.sections} />
     </div>
   );
 }

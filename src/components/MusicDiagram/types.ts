@@ -6,6 +6,11 @@ export interface SectionData {
   prom: number;
 }
 
+export interface Section {
+  name: string;
+  tempo: string;
+}
+
 export interface Instrument {
   id: string;
   name: string;
@@ -20,6 +25,6 @@ export interface Music {
   artist: string;
   bpm: number;
   key: string;
-  sections: string[];
+  sections: Section[];
   instruments: Instrument[];
 }

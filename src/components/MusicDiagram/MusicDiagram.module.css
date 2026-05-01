@@ -258,7 +258,6 @@
 }
 
 .thCell {
-  width: 140px;
   flex-shrink: 0;
   text-align: left;
   padding: 3px 8px;
@@ -272,6 +271,40 @@
   border-right: 1px solid rgba(0, 0, 0, 0.08);
   position: relative;
   text-shadow: var(--etched);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.thName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+.tempoInput {
+  width: 32px;
+  flex-shrink: 0;
+  font-family: "DM Mono", monospace;
+  font-size: 9px;
+  text-align: center;
+  letter-spacing: 0.04em;
+  color: var(--md-text-bright);
+  background: linear-gradient(180deg, #d8d5d0 0%, var(--md-bg) 100%);
+  border: 1px solid var(--md-border2);
+  padding: 1px 2px;
+  outline: none;
+  border-radius: 0;
+  box-shadow: var(--valley-shadow);
+  text-transform: none;
+}
+
+.tempoInput:focus {
+  border-color: var(--jhs-blue);
+  box-shadow: var(--valley-shadow), 0 0 0 1px var(--jhs-blue);
 }
 
 .thCell::before {
@@ -317,26 +350,6 @@
   position: relative;
 }
 
-/* faint vertical separators at every cell boundary, matching JHS palette */
-.instRow::before {
-  content: "";
-  position: absolute;
-  left: 130px;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background:
-    repeating-linear-gradient(
-      90deg,
-      transparent 0,
-      transparent 143px,
-      rgba(0, 0, 0, 0.08) 143px,
-      rgba(0, 0, 0, 0.08) 144px
-    );
-  pointer-events: none;
-  z-index: 0;
-}
-
 .instName {
   width: 118px;
   text-align: right;
@@ -368,7 +381,6 @@
 
 /* ── ICELL — recessed level-meter well, JHS faceplate finish ── */
 .icell {
-  width: 140px;
   height: 64px;
   flex-shrink: 0;
   border: 1px solid var(--md-border2);
@@ -507,7 +519,6 @@
 }
 
 .panRulerCell {
-  width: 140px;
   flex-shrink: 0;
   height: 12px;
   position: relative;

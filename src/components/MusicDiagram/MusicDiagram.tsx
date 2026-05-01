@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Music } from './types';
+import type { Music, SectionData } from './types';
 import { DiagramHeader } from './DiagramHeader';
 import { SectionsBar } from './SectionsBar';
 import { TimelinePanel } from './TimelinePanel';
@@ -8,9 +8,11 @@ import styles from './MusicDiagram.module.css';
 
 interface MusicDiagramProps {
   music: Music;
+  onUpdateSectionData: (instrumentId: string, sectionIndex: number, next: SectionData) => void;
+  onUpdateSectionTempo: (sectionIndex: number, tempo: string) => void;
 }
 
-export function MusicDiagram({ music }: Readonly<MusicDiagramProps>) {
+export function MusicDiagram({ music, onUpdateSectionData, onUpdateSectionTempo }: Readonly<MusicDiagramProps>) {
   const [activeSection, setActiveSection] = useState(0);
 
   return (
@@ -26,6 +28,8 @@ export function MusicDiagram({ music }: Readonly<MusicDiagramProps>) {
           music={music}
           activeSection={activeSection}
           onSectionChange={setActiveSection}
+          onUpdateSectionData={onUpdateSectionData}
+          onUpdateSectionTempo={onUpdateSectionTempo}
         />
         <StereoPanel music={music} activeSection={activeSection} />
       </main>

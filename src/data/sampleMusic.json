@@ -4,15 +4,15 @@
   "bpm": 120,
   "key": "C Maior",
   "sections": [
-    "Intro",
-    "Verso 1",
-    "Pré-Refrão",
-    "Refrão 1",
-    "Verso 2",
-    "Pré-Refrão",
-    "Refrão 2",
-    "Ponte",
-    "Final"
+    { "name": "Intro", "tempo": "4/4" },
+    { "name": "Verso 1", "tempo": "4/4" },
+    { "name": "Pré-Refrão", "tempo": "4/4" },
+    { "name": "Refrão 1", "tempo": "4/4" },
+    { "name": "Verso 2", "tempo": "4/4" },
+    { "name": "Pré-Refrão", "tempo": "4/4" },
+    { "name": "Refrão 2", "tempo": "4/4" },
+    { "name": "Ponte", "tempo": "4/4" },
+    { "name": "Final", "tempo": "4/4" }
   ],
   "instruments": [
     {

@@ -9,7 +9,7 @@ interface StereoPanelProps {
 }
 
 export function StereoPanel({ music, activeSection }: Readonly<StereoPanelProps>) {
-  const sectionName = music.sections[activeSection];
+  const sectionName = music.sections[activeSection]?.name ?? '';
 
   return (
     <aside className={styles.stereoPanel} aria-label="Campo estéreo">

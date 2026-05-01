@@ -1,17 +1,18 @@
-import type { Instrument } from './types';
+import type { Instrument, Section, SectionData } from './types';
 import { InstrumentRow } from './InstrumentRow';
 import styles from './MusicDiagram.module.css';
 
 interface GroupSectionProps {
   label: string;
   instruments: Instrument[];
-  sections: string[];
+  sections: Section[];
   activeSection: number;
   onSectionChange: (index: number) => void;
+  onUpdateSectionData: (instrumentId: string, sectionIndex: number, next: SectionData) => void;
   isFirst?: boolean;
 }
 
-export function GroupSection({ label, instruments, sections, activeSection, onSectionChange, isFirst }: Readonly<GroupSectionProps>) {
+export function GroupSection({ label, instruments, sections, activeSection, onSectionChange, onUpdateSectionData, isFirst }: Readonly<GroupSectionProps>) {
   return (
     <>
       <div className={styles.grpLabel} style={isFirst ? { borderTop: 'none' } : undefined}>— {label}</div>
@@ -22,6 +23,7 @@ export function GroupSection({ label, instruments, sections, activeSection, onSe
           sections={sections}
           activeSection={activeSection}
           onSectionChange={onSectionChange}
+          onUpdateSectionData={onUpdateSectionData}
         />
       ))}
     </>

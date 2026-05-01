@@ -1,10 +1,11 @@
 import type { CSSProperties, KeyboardEvent } from 'react';
+import type { Section } from './types';
 import styles from './MusicDiagram.module.css';
 
 const SECTION_COLORS = ['#D41E22', '#1B56E4', '#1AAF3C', '#D4A000'];
 
 interface SectionsBarProps {
-  sections: string[];
+  sections: Section[];
   activeSection: number;
   onSectionChange: (index: number) => void;
 }
@@ -38,7 +39,7 @@ export function SectionsBar({ sections, activeSection, onSectionChange }: Readon
       <div className={styles.sectionsBar} role="tablist" aria-label="Seções">
         {sections.map((sec, i) => (
           <button
-            key={sec}
+            key={`${sec.name}-${i}`}
             role="tab"
             aria-selected={i === activeSection}
             tabIndex={i === activeSection ? 0 : -1}
@@ -47,7 +48,7 @@ export function SectionsBar({ sections, activeSection, onSectionChange }: Readon
             onKeyDown={e => handleKeyDown(e, i)}
             style={{ '--stab-color': SECTION_COLORS[i % SECTION_COLORS.length] } as CSSProperties}
           >
-            {sec}
+            {sec.name}
           </button>
         ))}
       </div>
