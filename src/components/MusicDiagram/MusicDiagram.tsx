@@ -10,9 +10,21 @@ interface MusicDiagramProps {
   music: Music;
   onUpdateSectionData: (instrumentId: string, sectionIndex: number, next: SectionData) => void;
   onUpdateSectionTempo: (sectionIndex: number, tempo: string) => void;
+  onUpdateSectionName: (sectionIndex: number, name: string) => void;
+  onUpdateInstrumentName: (instrumentId: string, name: string) => void;
+  onAddSection: (name: string, tempo: string) => void;
+  onAddInstrument: () => void;
 }
 
-export function MusicDiagram({ music, onUpdateSectionData, onUpdateSectionTempo }: Readonly<MusicDiagramProps>) {
+export function MusicDiagram({
+  music,
+  onUpdateSectionData,
+  onUpdateSectionTempo,
+  onUpdateSectionName,
+  onUpdateInstrumentName,
+  onAddSection,
+  onAddInstrument,
+}: Readonly<MusicDiagramProps>) {
   const [activeSection, setActiveSection] = useState(0);
 
   return (
@@ -22,6 +34,7 @@ export function MusicDiagram({ music, onUpdateSectionData, onUpdateSectionTempo 
         sections={music.sections}
         activeSection={activeSection}
         onSectionChange={setActiveSection}
+        onUpdateSectionName={onUpdateSectionName}
       />
       <main className={styles.main} aria-label="Diagrama de arranjo">
         <TimelinePanel
@@ -30,6 +43,10 @@ export function MusicDiagram({ music, onUpdateSectionData, onUpdateSectionTempo 
           onSectionChange={setActiveSection}
           onUpdateSectionData={onUpdateSectionData}
           onUpdateSectionTempo={onUpdateSectionTempo}
+          onUpdateSectionName={onUpdateSectionName}
+          onUpdateInstrumentName={onUpdateInstrumentName}
+          onAddSection={onAddSection}
+          onAddInstrument={onAddInstrument}
         />
         <StereoPanel music={music} activeSection={activeSection} />
       </main>

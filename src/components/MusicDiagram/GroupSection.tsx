@@ -9,10 +9,20 @@ interface GroupSectionProps {
   activeSection: number;
   onSectionChange: (index: number) => void;
   onUpdateSectionData: (instrumentId: string, sectionIndex: number, next: SectionData) => void;
+  onUpdateInstrumentName: (instrumentId: string, name: string) => void;
   isFirst?: boolean;
 }
 
-export function GroupSection({ label, instruments, sections, activeSection, onSectionChange, onUpdateSectionData, isFirst }: Readonly<GroupSectionProps>) {
+export function GroupSection({
+  label,
+  instruments,
+  sections,
+  activeSection,
+  onSectionChange,
+  onUpdateSectionData,
+  onUpdateInstrumentName,
+  isFirst,
+}: Readonly<GroupSectionProps>) {
   return (
     <>
       <div className={styles.grpLabel} style={isFirst ? { borderTop: 'none' } : undefined}>— {label}</div>
@@ -24,6 +34,7 @@ export function GroupSection({ label, instruments, sections, activeSection, onSe
           activeSection={activeSection}
           onSectionChange={onSectionChange}
           onUpdateSectionData={onUpdateSectionData}
+          onUpdateInstrumentName={onUpdateInstrumentName}
         />
       ))}
     </>

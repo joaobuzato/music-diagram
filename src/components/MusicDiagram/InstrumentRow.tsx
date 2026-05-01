@@ -1,5 +1,6 @@
 import type { Instrument, Section, SectionData } from './types';
 import { SectionCell } from './SectionCell';
+import { EditableLabel } from './EditableLabel';
 import { tempoWidth } from './utils/tempo';
 import styles from './MusicDiagram.module.css';
 
@@ -9,6 +10,7 @@ interface InstrumentRowProps {
   activeSection: number;
   onSectionChange: (index: number) => void;
   onUpdateSectionData: (instrumentId: string, sectionIndex: number, next: SectionData) => void;
+  onUpdateInstrumentName: (instrumentId: string, name: string) => void;
 }
 
 function panLabel(pan: number): string {
@@ -17,10 +19,17 @@ function panLabel(pan: number): string {
   return 'centro';
 }
 
-export function InstrumentRow({ instrument, sections, activeSection, onSectionChange, onUpdateSectionData }: Readonly<InstrumentRowProps>) {
+export function InstrumentRow({ instrument, sections, activeSection, onSectionChange, onUpdateSectionData, onUpdateInstrumentName }: Readonly<InstrumentRowProps>) {
   return (
     <div className={styles.instRow} aria-label={instrument.name}>
-      <div className={styles.instName}>{instrument.name}</div>
+      <EditableLabel
+        value={instrument.name}
+        onCommit={(next) => onUpdateInstrumentName(instrument.id, next)}
+        ariaLabel="Nome do instrumento"
+        className={styles.instName}
+        inputClassName={styles.instNameInput}
+        maxLength={32}
+      />
       <div className={styles.instDot} aria-hidden="true" style={{ background: instrument.color }} />
       <fieldset className={styles.cellsTrack} style={{ border: 'none', padding: 0, margin: 0 }}>
         <legend style={{ display: 'none' }}>{`Seções de ${instrument.name}`}</legend>

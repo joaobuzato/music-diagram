@@ -11,6 +11,10 @@ interface TimelinePanelProps {
   onSectionChange: (index: number) => void;
   onUpdateSectionData: (instrumentId: string, sectionIndex: number, next: SectionData) => void;
   onUpdateSectionTempo: (sectionIndex: number, tempo: string) => void;
+  onUpdateSectionName: (sectionIndex: number, name: string) => void;
+  onUpdateInstrumentName: (instrumentId: string, name: string) => void;
+  onAddSection: (name: string, tempo: string) => void;
+  onAddInstrument: () => void;
 }
 
 function groupInstruments(instruments: Instrument[]): Array<[string, Instrument[]]> {
@@ -23,7 +27,17 @@ function groupInstruments(instruments: Instrument[]): Array<[string, Instrument[
   return Array.from(map.entries());
 }
 
-export function TimelinePanel({ music, activeSection, onSectionChange, onUpdateSectionData, onUpdateSectionTempo }: Readonly<TimelinePanelProps>) {
+export function TimelinePanel({
+  music,
+  activeSection,
+  onSectionChange,
+  onUpdateSectionData,
+  onUpdateSectionTempo,
+  onUpdateSectionName,
+  onUpdateInstrumentName,
+  onAddSection,
+  onAddInstrument,
+}: Readonly<TimelinePanelProps>) {
   const groups = useMemo(() => groupInstruments(music.instruments), [music.instruments]);
 
   return (
@@ -32,6 +46,8 @@ export function TimelinePanel({ music, activeSection, onSectionChange, onUpdateS
         sections={music.sections}
         activeSection={activeSection}
         onUpdateSectionTempo={onUpdateSectionTempo}
+        onUpdateSectionName={onUpdateSectionName}
+        onAddSection={onAddSection}
       />
       {groups.map(([label, instruments], i) => (
         <GroupSection
@@ -42,9 +58,20 @@ export function TimelinePanel({ music, activeSection, onSectionChange, onUpdateS
           activeSection={activeSection}
           onSectionChange={onSectionChange}
           onUpdateSectionData={onUpdateSectionData}
+          onUpdateInstrumentName={onUpdateInstrumentName}
           isFirst={i === 0}
         />
       ))}
+      <div className={styles.addInstrumentRow}>
+        <button
+          type="button"
+          className={styles.addInstrumentBtn}
+          onClick={onAddInstrument}
+          aria-label="Adicionar novo instrumento (linha) com todas as seções mutadas"
+        >
+          <span aria-hidden="true">+</span> Adicionar instrumento
+        </button>
+      </div>
       <PanRuler sections={music.sections} />
     </div>
   );
