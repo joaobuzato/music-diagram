@@ -809,6 +809,107 @@
   outline-offset: 2px;
 }
 
+/* ── REMOVE INSTRUMENT — armed two-stage hardware switch ── */
+.removeBtn {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: "DM Mono", monospace;
+  font-size: 13px;
+  line-height: 1;
+  padding: 0;
+  color: var(--md-dim);
+  background: linear-gradient(180deg, #ece9e5 0%, #d6d3ce 100%);
+  border: 1px solid var(--md-border2);
+  border-radius: 0;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: var(--plateau-shadow);
+  text-shadow: var(--etched);
+  transition: color 0.12s, background 0.12s, border-color 0.12s;
+}
+
+.removeBtn:hover {
+  color: var(--jhs-red);
+  background: linear-gradient(180deg, #f2efeb 0%, #ddd9d4 100%);
+  border-color: var(--jhs-red);
+}
+
+.removeBtn:focus-visible {
+  outline: 2px solid var(--jhs-blue);
+  outline-offset: 1px;
+  z-index: 1;
+}
+
+.removeConfirmGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.removeConfirm {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--jhs-red) 80%, #000 20%) 0%,
+    var(--jhs-red) 100%
+  );
+  border: 1px solid var(--md-border2);
+  border-radius: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: var(--plateau-shadow);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.35);
+}
+
+.removeConfirm:hover {
+  filter: brightness(1.06);
+}
+
+.removeCancel {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "DM Mono", monospace;
+  font-size: 13px;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  color: var(--md-text);
+  background: linear-gradient(180deg, #ece9e5 0%, #d6d3ce 100%);
+  border: 1px solid var(--md-border2);
+  border-radius: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: var(--plateau-shadow);
+  text-shadow: var(--etched);
+}
+
+.removeCancel:hover {
+  background: linear-gradient(180deg, #f2efeb 0%, #ddd9d4 100%);
+  color: var(--md-text-bright);
+}
+
+.removeConfirm:focus-visible,
+.removeCancel:focus-visible {
+  outline: 2px solid var(--jhs-blue);
+  outline-offset: 1px;
+  z-index: 1;
+}
+
 /* ── visually hidden (a11y label) ── */
 .visuallyHidden {
   position: absolute;

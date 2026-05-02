@@ -1,6 +1,6 @@
-import type { Instrument, Section, SectionData } from './types';
-import { InstrumentRow } from './InstrumentRow';
-import styles from './MusicDiagram.module.css';
+import type { Instrument, Section, SectionData } from "./types";
+import { InstrumentRow } from "./InstrumentRow";
+import styles from "./MusicDiagram.module.css";
 
 interface GroupSectionProps {
   label: string;
@@ -8,8 +8,13 @@ interface GroupSectionProps {
   sections: Section[];
   activeSection: number;
   onSectionChange: (index: number) => void;
-  onUpdateSectionData: (instrumentId: string, sectionIndex: number, next: SectionData) => void;
+  onUpdateSectionData: (
+    instrumentId: string,
+    sectionIndex: number,
+    next: SectionData,
+  ) => void;
   onUpdateInstrumentName: (instrumentId: string, name: string) => void;
+  onRemoveInstrument: (instrumentId: string) => void;
   isFirst?: boolean;
 }
 
@@ -21,12 +26,18 @@ export function GroupSection({
   onSectionChange,
   onUpdateSectionData,
   onUpdateInstrumentName,
+  onRemoveInstrument,
   isFirst,
 }: Readonly<GroupSectionProps>) {
   return (
     <>
-      <div className={styles.grpLabel} style={isFirst ? { borderTop: 'none' } : undefined}>— {label}</div>
-      {instruments.map(inst => (
+      <div
+        className={styles.grpLabel}
+        style={isFirst ? { borderTop: "none" } : undefined}
+      >
+        — {label}
+      </div>
+      {instruments.map((inst) => (
         <InstrumentRow
           key={inst.id}
           instrument={inst}
@@ -35,6 +46,7 @@ export function GroupSection({
           onSectionChange={onSectionChange}
           onUpdateSectionData={onUpdateSectionData}
           onUpdateInstrumentName={onUpdateInstrumentName}
+          onRemoveInstrument={onRemoveInstrument}
         />
       ))}
     </>

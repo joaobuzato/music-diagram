@@ -1,23 +1,30 @@
-import { useMemo } from 'react';
-import type { Instrument, Music, SectionData } from './types';
-import { TimelineHeader } from './TimelineHeader';
-import { GroupSection } from './GroupSection';
-import { PanRuler } from './PanRuler';
-import styles from './MusicDiagram.module.css';
+import { useMemo } from "react";
+import type { Instrument, Music, SectionData } from "./types";
+import { TimelineHeader } from "./TimelineHeader";
+import { GroupSection } from "./GroupSection";
+import { PanRuler } from "./PanRuler";
+import styles from "./MusicDiagram.module.css";
 
 interface TimelinePanelProps {
   music: Music;
   activeSection: number;
   onSectionChange: (index: number) => void;
-  onUpdateSectionData: (instrumentId: string, sectionIndex: number, next: SectionData) => void;
+  onUpdateSectionData: (
+    instrumentId: string,
+    sectionIndex: number,
+    next: SectionData,
+  ) => void;
   onUpdateSectionTempo: (sectionIndex: number, tempo: string) => void;
   onUpdateSectionName: (sectionIndex: number, name: string) => void;
   onUpdateInstrumentName: (instrumentId: string, name: string) => void;
   onAddSection: (name: string, tempo: string) => void;
   onAddInstrument: () => void;
+  onRemoveInstrument: (instrumentId: string) => void;
 }
 
-function groupInstruments(instruments: Instrument[]): Array<[string, Instrument[]]> {
+function groupInstruments(
+  instruments: Instrument[],
+): Array<[string, Instrument[]]> {
   const map = new Map<string, Instrument[]>();
   for (const inst of instruments) {
     const list = map.get(inst.group);
@@ -37,8 +44,12 @@ export function TimelinePanel({
   onUpdateInstrumentName,
   onAddSection,
   onAddInstrument,
+  onRemoveInstrument,
 }: Readonly<TimelinePanelProps>) {
-  const groups = useMemo(() => groupInstruments(music.instruments), [music.instruments]);
+  const groups = useMemo(
+    () => groupInstruments(music.instruments),
+    [music.instruments],
+  );
 
   return (
     <div className={styles.timelinePanel}>
@@ -59,6 +70,7 @@ export function TimelinePanel({
           onSectionChange={onSectionChange}
           onUpdateSectionData={onUpdateSectionData}
           onUpdateInstrumentName={onUpdateInstrumentName}
+          onRemoveInstrument={onRemoveInstrument}
           isFirst={i === 0}
         />
       ))}

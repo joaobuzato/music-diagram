@@ -193,6 +193,19 @@ function App() {
     });
   }, []);
 
+  const removeInstrument = useCallback((instrumentId: string) => {
+    setMusic((prev) => {
+      const updated: Music = {
+        ...prev,
+        instruments: prev.instruments.filter((item) => {
+          return item.id != instrumentId;
+        }),
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
+
   return (
     <MusicDiagram
       music={music}
@@ -202,6 +215,7 @@ function App() {
       onUpdateInstrumentName={updateInstrumentName}
       onAddSection={addSection}
       onAddInstrument={addInstrument}
+      onRemoveInstrument={removeInstrument}
     />
   );
 }
