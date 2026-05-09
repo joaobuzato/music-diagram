@@ -20,6 +20,7 @@ interface TimelinePanelProps {
   onAddSection: (name: string, tempo: string) => void;
   onAddInstrument: () => void;
   onRemoveInstrument: (instrumentId: string) => void;
+  onReorderInstrument: (fromId: string, toId: string) => void;
 }
 
 function groupInstruments(
@@ -45,6 +46,7 @@ export function TimelinePanel({
   onAddSection,
   onAddInstrument,
   onRemoveInstrument,
+  onReorderInstrument,
 }: Readonly<TimelinePanelProps>) {
   const groups = useMemo(
     () => groupInstruments(music.instruments),
@@ -71,6 +73,7 @@ export function TimelinePanel({
           onUpdateSectionData={onUpdateSectionData}
           onUpdateInstrumentName={onUpdateInstrumentName}
           onRemoveInstrument={onRemoveInstrument}
+          onReorderInstrument={onReorderInstrument}
           isFirst={i === 0}
         />
       ))}

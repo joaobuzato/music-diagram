@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { Music, SectionData } from "./types";
 import { DiagramHeader } from "./DiagramHeader";
 import { SectionsBar } from "./SectionsBar";
@@ -19,6 +19,16 @@ interface MusicDiagramProps {
   onAddSection: (name: string, tempo: string) => void;
   onAddInstrument: () => void;
   onRemoveInstrument: (instrumentId: string) => void;
+  onReorderSection: (from: number, to: number) => void;
+  onReorderInstrument: (fromId: string, toId: string) => void;
+}
+
+function nextActive(active: number, from: number, to: number): number {
+  if (from === to) return active;
+  if (active === from) return to;
+  if (from < to && active > from && active <= to) return active - 1;
+  if (from > to && active >= to && active < from) return active + 1;
+  return active;
 }
 
 export function MusicDiagram({
@@ -30,8 +40,18 @@ export function MusicDiagram({
   onAddSection,
   onAddInstrument,
   onRemoveInstrument,
+  onReorderSection,
+  onReorderInstrument,
 }: Readonly<MusicDiagramProps>) {
   const [activeSection, setActiveSection] = useState(0);
+
+  const handleReorderSection = useCallback(
+    (from: number, to: number) => {
+      onReorderSection(from, to);
+      setActiveSection((prev) => nextActive(prev, from, to));
+    },
+    [onReorderSection],
+  );
 
   return (
     <div className={styles.musicDiagram}>
@@ -41,6 +61,7 @@ export function MusicDiagram({
         activeSection={activeSection}
         onSectionChange={setActiveSection}
         onUpdateSectionName={onUpdateSectionName}
+        onReorderSection={handleReorderSection}
       />
       <main className={styles.main} aria-label="Diagrama de arranjo">
         <TimelinePanel
@@ -54,6 +75,7 @@ export function MusicDiagram({
           onAddSection={onAddSection}
           onAddInstrument={onAddInstrument}
           onRemoveInstrument={onRemoveInstrument}
+          onReorderInstrument={onReorderInstrument}
         />
         <StereoPanel music={music} activeSection={activeSection} />
       </main>

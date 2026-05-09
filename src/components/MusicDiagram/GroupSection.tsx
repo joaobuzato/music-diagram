@@ -15,6 +15,7 @@ interface GroupSectionProps {
   ) => void;
   onUpdateInstrumentName: (instrumentId: string, name: string) => void;
   onRemoveInstrument: (instrumentId: string) => void;
+  onReorderInstrument: (fromId: string, toId: string) => void;
   isFirst?: boolean;
 }
 
@@ -27,6 +28,7 @@ export function GroupSection({
   onUpdateSectionData,
   onUpdateInstrumentName,
   onRemoveInstrument,
+  onReorderInstrument,
   isFirst,
 }: Readonly<GroupSectionProps>) {
   return (
@@ -47,6 +49,7 @@ export function GroupSection({
           onUpdateSectionData={onUpdateSectionData}
           onUpdateInstrumentName={onUpdateInstrumentName}
           onRemoveInstrument={onRemoveInstrument}
+          onReorderInstrument={onReorderInstrument}
         />
       ))}
     </>

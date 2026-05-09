@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, type DragEvent } from "react";
 import type { Instrument, Section, SectionData } from "./types";
 import { SectionCell } from "./SectionCell";
 import { EditableLabel } from "./EditableLabel";
+import { DragHandle } from "./DragHandle";
 import { tempoWidth } from "./utils/tempo";
 import styles from "./MusicDiagram.module.css";
+
+const INSTRUMENT_DND_TYPE = "application/x-md-instrument";
 
 interface InstrumentRowProps {
   instrument: Instrument;
@@ -17,12 +20,17 @@ interface InstrumentRowProps {
   ) => void;
   onUpdateInstrumentName: (instrumentId: string, name: string) => void;
   onRemoveInstrument: (instrumentId: string) => void;
+  onReorderInstrument: (fromId: string, toId: string) => void;
 }
 
 function panLabel(pan: number): string {
   if (pan < -0.15) return "esquerda";
   if (pan > 0.15) return "direita";
   return "centro";
+}
+
+function isInstrumentDrag(e: DragEvent<HTMLElement>): boolean {
+  return Array.from(e.dataTransfer.types).includes(INSTRUMENT_DND_TYPE);
 }
 
 export function InstrumentRow({
@@ -33,11 +41,61 @@ export function InstrumentRow({
   onUpdateSectionData,
   onUpdateInstrumentName,
   onRemoveInstrument,
+  onReorderInstrument,
 }: Readonly<InstrumentRowProps>) {
   const [confirmingRemove, setConfirmingRemove] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isDropTarget, setIsDropTarget] = useState(false);
+
+  function handleDragStart(e: DragEvent<HTMLButtonElement>) {
+    setIsDragging(true);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData(INSTRUMENT_DND_TYPE, instrument.id);
+    e.dataTransfer.setData("text/plain", instrument.name);
+  }
+
+  function handleDragEnd() {
+    setIsDragging(false);
+    setIsDropTarget(false);
+  }
+
+  function handleDragOver(e: DragEvent<HTMLFieldSetElement>) {
+    if (!isInstrumentDrag(e)) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    if (!isDragging && !isDropTarget) setIsDropTarget(true);
+  }
+
+  function handleDragLeave(e: DragEvent<HTMLFieldSetElement>) {
+    if (e.currentTarget.contains(e.relatedTarget as Node | null)) return;
+    setIsDropTarget(false);
+  }
+
+  function handleDrop(e: DragEvent<HTMLFieldSetElement>) {
+    if (!isInstrumentDrag(e)) return;
+    e.preventDefault();
+    const fromId = e.dataTransfer.getData(INSTRUMENT_DND_TYPE);
+    setIsDropTarget(false);
+    if (!fromId || fromId === instrument.id) return;
+    onReorderInstrument(fromId, instrument.id);
+  }
+
+  const rowClass = `${styles.instRow}${isDragging ? " " + styles.rowDragging : ""}${isDropTarget ? " " + styles.dropTarget : ""}`;
 
   return (
-    <div className={styles.instRow} aria-label={instrument.name}>
+    <fieldset
+      className={rowClass}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
+      <legend className={styles.visuallyHidden}>{instrument.name}</legend>
+      <DragHandle
+        ariaLabel={`Mover ${instrument.name}`}
+        title="Arraste para reordenar o instrumento"
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+      />
       {confirmingRemove ? (
         <fieldset
           className={styles.removeConfirmGroup}
@@ -116,6 +174,6 @@ export function InstrumentRow({
           );
         })}
       </fieldset>
-    </div>
+    </fieldset>
   );
 }

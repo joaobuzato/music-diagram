@@ -66,6 +66,16 @@ function replaceAt<T>(arr: T[], index: number, value: T): T[] {
   return out;
 }
 
+function moveAt<T>(arr: T[], from: number, to: number): T[] {
+  if (from === to || from < 0 || to < 0 || from >= arr.length || to >= arr.length) {
+    return arr;
+  }
+  const out = arr.slice();
+  const [item] = out.splice(from, 1);
+  out.splice(to, 0, item);
+  return out;
+}
+
 function withUpdatedInstrument(
   instruments: Instrument[],
   instrumentId: string,
@@ -193,6 +203,47 @@ function App() {
     });
   }, []);
 
+  const reorderSection = useCallback((from: number, to: number) => {
+    setMusic((prev) => {
+      const sections = moveAt(prev.sections, from, to);
+      if (sections === prev.sections) return prev;
+      const updated: Music = {
+        ...prev,
+        sections,
+        instruments: prev.instruments.map((inst) => ({
+          ...inst,
+          data: moveAt(inst.data, from, to),
+        })),
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
+
+  const reorderInstrument = useCallback(
+    (fromId: string, toId: string) => {
+      setMusic((prev) => {
+        if (fromId === toId) return prev;
+        const from = prev.instruments.findIndex((i) => i.id === fromId);
+        const to = prev.instruments.findIndex((i) => i.id === toId);
+        if (from === -1 || to === -1) return prev;
+        const targetGroup = prev.instruments[to].group;
+        const moved = prev.instruments[from];
+        const sameGroup = moved.group === targetGroup;
+        const reGrouped = sameGroup ? moved : { ...moved, group: targetGroup };
+        const withGroup = sameGroup
+          ? prev.instruments
+          : replaceAt(prev.instruments, from, reGrouped);
+        const instruments = moveAt(withGroup, from, to);
+        if (instruments === withGroup && sameGroup) return prev;
+        const updated: Music = { ...prev, instruments };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+        return updated;
+      });
+    },
+    [],
+  );
+
   const removeInstrument = useCallback((instrumentId: string) => {
     setMusic((prev) => {
       const updated: Music = {
@@ -216,6 +267,8 @@ function App() {
       onAddSection={addSection}
       onAddInstrument={addInstrument}
       onRemoveInstrument={removeInstrument}
+      onReorderSection={reorderSection}
+      onReorderInstrument={reorderInstrument}
     />
   );
 }
