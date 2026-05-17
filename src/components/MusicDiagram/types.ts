@@ -21,6 +21,7 @@ export interface Instrument {
 }
 
 export interface Music {
+  id: string;
   title: string;
   artist: string;
   bpm: number;

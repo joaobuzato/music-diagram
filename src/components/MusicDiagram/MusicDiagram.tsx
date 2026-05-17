@@ -8,6 +8,7 @@ import styles from "./MusicDiagram.module.css";
 
 interface MusicDiagramProps {
   music: Music;
+  onBackToLibrary: () => void;
   onUpdateSectionData: (
     instrumentId: string,
     sectionIndex: number,
@@ -33,6 +34,7 @@ function nextActive(active: number, from: number, to: number): number {
 
 export function MusicDiagram({
   music,
+  onBackToLibrary,
   onUpdateSectionData,
   onUpdateSectionTempo,
   onUpdateSectionName,
@@ -55,7 +57,7 @@ export function MusicDiagram({
 
   return (
     <div className={styles.musicDiagram}>
-      <DiagramHeader music={music} />
+      <DiagramHeader music={music} onBackToLibrary={onBackToLibrary} />
       <SectionsBar
         sections={music.sections}
         activeSection={activeSection}

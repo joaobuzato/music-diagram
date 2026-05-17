@@ -4,9 +4,10 @@ import styles from './MusicDiagram.module.css';
 
 interface DiagramHeaderProps {
   music: Music;
+  onBackToLibrary: () => void;
 }
 
-export function DiagramHeader({ music }: Readonly<DiagramHeaderProps>) {
+export function DiagramHeader({ music, onBackToLibrary }: Readonly<DiagramHeaderProps>) {
   const [title, setTitle] = useState(music.title);
   const [artist, setArtist] = useState(music.artist);
   const [bpm, setBpm] = useState(String(music.bpm));
@@ -14,6 +15,15 @@ export function DiagramHeader({ music }: Readonly<DiagramHeaderProps>) {
 
   return (
     <header className={styles.header} aria-label="Informações da música">
+      <button
+        type="button"
+        className={styles.backToLibraryBtn}
+        onClick={onBackToLibrary}
+        aria-label="Voltar para biblioteca"
+        title="Voltar para biblioteca"
+      >
+        ◀ BIBLIOTECA
+      </button>
       <div className={styles.logo} aria-hidden="true">◈ ARRANJO</div>
       <fieldset className={styles.songMeta} style={{ border: 'none', margin: 0, padding: 0 }}>
         <legend className={styles.ml} style={{ display: 'none' }}>Metadados da música</legend>
